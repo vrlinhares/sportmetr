@@ -3,7 +3,7 @@ import { Megaphone, ArrowRight } from 'lucide-react';
 
 export function AnnouncementBar() {
   return (
-    <div className="bg-[#003a89] text-white py-3 px-4">
+    <div className="bg-[#003a89] text-white py-3 px-4 mt-20">
       <div className="max-w-7xl mx-auto">
         <Link
           to="/summit/about"

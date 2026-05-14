@@ -39,7 +39,7 @@ export function SummitTickets() {
                   NOW AVAILABLE
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Elite</h3>
-                <div className="text-4xl font-bold text-[#003a89] mb-2">R$ 80</div>
+                <div className="text-4xl font-bold text-gray-400 mb-2">???</div>
                 <p className="text-gray-600">Lot 1</p>
               </div>
               <ul className="space-y-4 mb-8">
