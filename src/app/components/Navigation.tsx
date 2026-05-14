@@ -76,7 +76,7 @@ export function Navigation({ activeSection, setActiveSection }: NavigationProps)
     { id: 'about', label: 'About', type: 'link' as const, path: '/about' },
     { id: 'network', label: 'Network', type: 'link' as const, path: '/network' },
     { id: 'events', label: 'Events', type: 'link' as const, path: '/events' },
-    { id: 'join', label: 'Join Us', type: 'scroll' as const },
+    { id: 'join', label: 'Join Us', type: 'link' as const, path: '/join' },
   ];
 
   return (

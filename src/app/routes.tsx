@@ -7,6 +7,7 @@ import { ApplyChapter } from './pages/ApplyChapter';
 import { EventsPage } from './pages/EventsPage';
 import { SummitAbout } from './pages/SummitAbout';
 import { SummitTickets } from './pages/SummitTickets';
+import { JoinUs } from './pages/JoinUs';
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
       { path: 'network', Component: Network },
       { path: 'apply', Component: ApplyChapter },
       { path: 'events', Component: EventsPage },
+      { path: 'join', Component: JoinUs },
       { path: 'summit/about', Component: SummitAbout },
       { path: 'summit/tickets', Component: SummitTickets },
     ],
