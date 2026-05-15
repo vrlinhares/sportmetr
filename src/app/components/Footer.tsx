@@ -1,15 +1,9 @@
-import { MessageCircle, Mail } from 'lucide-react';
+import { Mail, UserPlus } from 'lucide-react';
+import { Link } from 'react-router';
 import logo from '../../imports/GC_Banner_(3).png';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
-
-  const handleJoinClick = () => {
-    const element = document.getElementById('join');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <footer className="bg-[#003a89] text-white">
@@ -24,20 +18,20 @@ export function Footer() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button
-              onClick={handleJoinClick}
-              className="px-8 py-4 bg-[#c1ff72] hover:bg-[#b0ee61] text-gray-900 rounded-full font-medium transition-all hover:scale-105 inline-flex items-center gap-3 group"
-            >
-              <MessageCircle size={20} />
-              WhatsApp Community
-            </button>
             <a
               href="mailto:sportmetr.team@gmail.com"
-              className="px-8 py-4 bg-white hover:bg-gray-100 text-[#003a89] rounded-full font-medium transition-all hover:scale-105 inline-flex items-center gap-3 group"
+              className="px-8 py-4 bg-[#c1ff72] hover:bg-[#b0ee61] text-gray-900 rounded-full font-medium transition-all hover:scale-105 inline-flex items-center gap-3 group"
             >
               <Mail size={20} />
               Email Us
             </a>
+            <Link
+              to="/join"
+              className="px-8 py-4 bg-[#ff751f] hover:bg-[#e66a1b] text-white rounded-full font-medium transition-all hover:scale-105 inline-flex items-center gap-3 group"
+            >
+              <UserPlus size={20} />
+              Join Us
+            </Link>
           </div>
         </div>
 
