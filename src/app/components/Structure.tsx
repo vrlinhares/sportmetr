@@ -1,32 +1,11 @@
 import { Building2, MessageCircle, Network, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
-import tbsrjLogo from '../../imports/tbsrj_barra.png';
-import rmhsLogo from '../../imports/richard_montgomery.png';
-import stpaulsLogo from '../../imports/Solo_Logo_(Barra).png';
-import elevaLogo from '../../imports/Solo_Logo_(Barra)_(1).png';
 
 export function Structure() {
-  const chapters = [
-    {
-      name: 'The British School Rio de Janeiro (Barra)',
-      location: 'Rio de Janeiro, BRA',
-      logo: tbsrjLogo
-    },
-    {
-      name: 'Richard Montgomery High School',
-      location: 'Maryland, USA',
-      logo: rmhsLogo
-    },
-    {
-      name: "St. Paul's School",
-      location: 'São Paulo, BRA',
-      logo: stpaulsLogo
-    },
-    {
-      name: 'Escola Eleva (Barra)',
-      location: 'Rio de Janeiro, BRA',
-      logo: elevaLogo
-    }
+  const stats = [
+    { value: '5', label: 'Chapters' },
+    { value: '3', label: 'States' },
+    { value: '2', label: 'Countries' }
   ];
 
   const networkFeatures = [
@@ -83,29 +62,22 @@ export function Structure() {
           ))}
         </div>
 
-        {/* Chapters Grid */}
+        {/* Network Stats */}
         <div>
           <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">
-            Our Active Chapters
+            Our Reach
           </h3>
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
-            {chapters.map((chapter, index) => (
+          <div className="grid grid-cols-3 gap-6 mb-12">
+            {stats.map((stat, index) => (
               <div
                 key={index}
-                className="bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-[#003a89] transition-all group"
+                className="bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-[#003a89] transition-all text-center"
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <img
-                    src={chapter.logo}
-                    alt={chapter.name}
-                    className="w-16 h-16 object-contain rounded-lg"
-                  />
-                  <div>
-                    <h4 className="text-lg font-semibold text-gray-900 group-hover:text-[#003a89] transition-colors">
-                      {chapter.name}
-                    </h4>
-                    <p className="text-sm text-gray-600">{chapter.location}</p>
-                  </div>
+                <div className="text-5xl md:text-6xl font-bold text-[#003a89] mb-2">
+                  {stat.value}
+                </div>
+                <div className="text-sm md:text-base font-medium text-gray-600 uppercase tracking-wide">
+                  {stat.label}
                 </div>
               </div>
             ))}
