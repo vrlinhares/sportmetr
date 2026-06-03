@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Hero } from '../components/Hero';
 import { ImageBanner } from '../components/ImageBanner';
-import { SummitNotice } from '../components/SummitNotice';
+// import { SummitNotice } from '../components/SummitNotice';
 import { JoinCTA } from '../components/JoinCTA';
 
 export function Home() {
@@ -28,7 +28,7 @@ export function Home() {
 
   return (
     <>
-      <SummitNotice />
+      {/* <SummitNotice /> */}
       <Hero />
       <ImageBanner />
       <JoinCTA />
