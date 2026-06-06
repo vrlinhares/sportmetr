@@ -4,8 +4,8 @@ import { Building2, MessageCircle, Network, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
 
 const stats = [
-  { value: 5, label: 'Chapters', color: '#ff751f' },
-  { value: 3, label: 'States', color: '#c1ff72' },
+  { value: 1, label: 'Active Chapter', color: '#ff751f' },
+  { value: 4, label: 'Launching Soon', color: '#c1ff72' },
   { value: 2, label: 'Countries', color: '#003a89' },
 ];
 

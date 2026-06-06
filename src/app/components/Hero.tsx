@@ -167,8 +167,8 @@ export function Hero() {
             className="mt-16 flex items-center justify-center gap-8 md:gap-16 text-[#003a89] flex-wrap"
           >
             {[
-              { v: '5', l: 'Chapters' },
-              { v: '3', l: 'States' },
+              { v: '1', l: 'Active Chapter' },
+              { v: '4', l: 'Launching Soon' },
               { v: '2', l: 'Countries' },
             ].map((s, i: number) => (
               <div key={s.l} className="flex items-center gap-3">

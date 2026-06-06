@@ -14,7 +14,7 @@ const previews = [
   {
     icon: NetworkIcon,
     label: 'Our Network',
-    title: '5 chapters, 3 states, 2 countries',
+    title: '1 active chapter, 4 launching, 2 countries',
     description: 'A decentralised network of high school chapters, connected by a shared community and a single mission.',
     href: '/network',
     accent: '#3533cd',

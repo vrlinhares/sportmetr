@@ -4,7 +4,7 @@ const messages = [
   { icon: '◆', text: 'BRING SPORTMETR TO YOUR SCHOOL' },
   { icon: '●', text: 'OPEN A CHAPTER TODAY' },
   { icon: '▲', text: 'STUDENT-LED · ANALYTICS · STRATEGY' },
-  { icon: '◆', text: '5 CHAPTERS · 3 STATES · 2 COUNTRIES' },
+  { icon: '◆', text: '1 ACTIVE · 4 LAUNCHING · 2 COUNTRIES' },
   { icon: '★', text: 'THE GAME BEHIND THE GAME' },
 ];
 
