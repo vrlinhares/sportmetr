@@ -1,22 +1,28 @@
 import { Link } from 'react-router';
-import { Megaphone, ArrowRight } from 'lucide-react';
+
+const messages = [
+  { icon: '◆', text: 'BRING SPORTMETR TO YOUR SCHOOL' },
+  { icon: '●', text: 'OPEN A CHAPTER TODAY' },
+  { icon: '▲', text: 'STUDENT-LED · ANALYTICS · STRATEGY' },
+  { icon: '◆', text: '5 CHAPTERS · 3 STATES · 2 COUNTRIES' },
+  { icon: '★', text: 'THE GAME BEHIND THE GAME' },
+];
 
 export function AnnouncementBar() {
+  const items = [...messages, ...messages, ...messages];
   return (
-    <div className="bg-[#003a89] text-white py-3 px-4 mt-20">
-      <div className="max-w-7xl mx-auto">
-        <Link
-          to="/apply"
-          className="flex items-center justify-center gap-3 hover:opacity-90 transition-opacity group"
-        >
-          <Megaphone size={18} className="flex-shrink-0" />
-          <span className="text-sm md:text-base font-medium text-center">
-            <span className="hidden sm:inline">Bring SportMetr to your school — </span>
-            <span className="font-bold">Open a Chapter Today</span>
+    <Link
+      to="/apply"
+      className="block bg-[#003a89] text-white py-2.5 mt-20 overflow-hidden relative group hover:bg-[#002a69] transition-colors"
+    >
+      <div className="flex sm-marquee-track whitespace-nowrap will-change-transform">
+        {items.map((m, i) => (
+          <span key={i} className="flex items-center gap-3 px-6 text-sm font-bold tracking-wider shrink-0">
+            <span className="text-[#c1ff72]">{m.icon}</span>
+            <span>{m.text}</span>
           </span>
-          <ArrowRight size={18} className="flex-shrink-0 group-hover:translate-x-1 transition-transform" />
-        </Link>
+        ))}
       </div>
-    </div>
+    </Link>
   );
 }

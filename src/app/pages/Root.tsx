@@ -8,7 +8,7 @@ export function Root() {
   const [activeSection, setActiveSection] = useState('home');
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#f6f5ef]">
       <AnnouncementBar />
       <Navigation activeSection={activeSection} setActiveSection={setActiveSection} />
       <Outlet />

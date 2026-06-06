@@ -1,107 +1,178 @@
+import { useEffect, useRef, useState } from 'react';
+import { motion, useInView, animate } from 'motion/react';
 import { Building2, MessageCircle, Network, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
 
-export function Structure() {
-  const stats = [
-    { value: '5', label: 'Chapters' },
-    { value: '3', label: 'States' },
-    { value: '2', label: 'Countries' }
-  ];
+const stats = [
+  { value: 5, label: 'Chapters', color: '#ff751f' },
+  { value: 3, label: 'States', color: '#c1ff72' },
+  { value: 2, label: 'Countries', color: '#003a89' },
+];
 
-  const networkFeatures = [
-    {
-      icon: <Building2 className="text-[#ff751f]" size={32} />,
-      title: 'Local Chapters',
-      description: 'Independent student groups at high schools, each with their own leadership and focus areas.'
-    },
-    {
-      icon: <Network className="text-[#ff751f]" size={32} />,
-      title: 'Shared Resources',
-      description: 'Access to collective knowledge base, tools, and learning materials across the network.'
-    },
-    {
-      icon: <MessageCircle className="text-[#ff751f]" size={32} />,
-      title: 'Central Community',
-      description: 'WhatsApp community connecting all members for collaboration, support, and opportunity sharing.'
-    }
-  ];
+const networkFeatures = [
+  {
+    icon: Building2,
+    title: 'Local Chapters',
+    description: 'Independent student groups at high schools, each with their own leadership and focus areas.',
+  },
+  {
+    icon: Network,
+    title: 'Shared Resources',
+    description: 'Access to collective knowledge base, tools, and learning materials across the network.',
+  },
+  {
+    icon: MessageCircle,
+    title: 'Central Community',
+    description: 'WhatsApp community connecting all members for collaboration, support, and opportunity sharing.',
+  },
+];
+
+function CountUp({ to, color }: { to: number; color: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true });
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    const controls = animate(0, to, {
+      duration: 1.6,
+      ease: [0.22, 1, 0.36, 1],
+      onUpdate: (v) => setValue(Math.floor(v)),
+    });
+    return () => controls.stop();
+  }, [inView, to]);
 
   return (
-    <section id="structure" className="py-20 lg:py-32 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#003a89]/10 text-[#003a89] rounded-full text-sm font-medium mb-6">
+    <div ref={ref} className="text-7xl md:text-8xl font-extrabold leading-none" style={{ color, fontWeight: 800 }}>
+      {value}
+    </div>
+  );
+}
+
+function NetworkFeature({ feature, index }: { feature: typeof networkFeatures[number]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const Icon = feature.icon;
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      className="group relative bg-white p-8 rounded-3xl border-2 border-transparent hover:border-[#ff751f] transition-all duration-500 overflow-hidden"
+    >
+      <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-[#ff751f]/0 group-hover:bg-[#ff751f]/10 transition-all duration-500 blur-2xl" />
+      <div className="relative">
+        <div className="inline-flex p-4 bg-[#003a89] rounded-2xl mb-4 group-hover:rotate-6 transition-transform">
+          <Icon className="text-[#c1ff72]" size={32} />
+        </div>
+        <h3 className="text-xl font-extrabold text-[#0a0a0a] mb-3" style={{ fontWeight: 800 }}>{feature.title}</h3>
+        <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+      </div>
+    </motion.div>
+  );
+}
+
+export function Structure() {
+  return (
+    <section id="structure" className="relative py-20 lg:py-32 bg-[#f6f5ef] overflow-hidden">
+      <div className="absolute inset-0 sm-grid-bg opacity-50 pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center max-w-4xl mx-auto mb-16"
+        >
+          <div className="inline-flex items-center gap-3 px-5 py-2 bg-[#ff751f] text-white rounded-full text-xs font-bold tracking-widest mb-6 uppercase">
             Network Structure
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            A Distributed Network, A Unified Mission
+          <h2 className="text-4xl md:text-6xl font-extrabold text-[#0a0a0a] mb-6 leading-[1.05]" style={{ fontWeight: 800 }}>
+            A distributed network,
+            <br />
+            <span className="bg-gradient-to-r from-[#003a89] to-[#3533cd] bg-clip-text text-transparent">a unified mission</span>
           </h2>
           <p className="text-lg text-gray-600">
-            SportMetr operates through a decentralised network of high school chapters, connected and supported by our core team through a shared Whatsapp Community.
+            SportMetr operates through a decentralised network of high school chapters, connected and supported by our core team through a shared WhatsApp Community.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Network Features */}
-        <div className="grid md:grid-cols-3 gap-8 mb-20">
+        <div className="grid md:grid-cols-3 gap-6 mb-20">
           {networkFeatures.map((feature, index) => (
-            <div
-              key={index}
-              className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all text-center"
-            >
-              <div className="inline-flex p-4 bg-gray-100 rounded-2xl mb-4">
-                {feature.icon}
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                {feature.description}
-              </p>
-            </div>
+            <NetworkFeature key={feature.title} feature={feature} index={index} />
           ))}
         </div>
 
-        {/* Network Stats */}
-        <div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">
-            Our Reach
-          </h3>
-          <div className="grid grid-cols-3 gap-6 mb-12">
+        {/* Animated stat counters */}
+        <div className="mb-16">
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-extrabold text-center mb-12 text-[#0a0a0a]"
+            style={{ fontWeight: 800 }}
+          >
+            Our reach, by the numbers
+          </motion.h3>
+          <div className="grid grid-cols-3 gap-4 md:gap-8">
             {stats.map((stat, index) => (
-              <div
-                key={index}
-                className="bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-[#003a89] transition-all text-center"
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                className="group relative p-6 md:p-10 rounded-3xl bg-white border-2 border-transparent hover:border-[#003a89] transition-all overflow-hidden text-center"
               >
-                <div className="text-5xl md:text-6xl font-bold text-[#003a89] mb-2">
-                  {stat.value}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{ background: `radial-gradient(circle at 50% 50%, ${stat.color}15 0%, transparent 70%)` }}
+                />
+                <div className="relative">
+                  <CountUp to={stat.value} color={stat.color} />
+                  <div className="mt-3 text-xs md:text-sm font-bold uppercase tracking-widest text-gray-600">
+                    {stat.label}
+                  </div>
+                  <div className="mt-4 h-1 w-12 mx-auto rounded-full" style={{ backgroundColor: stat.color }} />
                 </div>
-                <div className="text-sm md:text-base font-medium text-gray-600 uppercase tracking-wide">
-                  {stat.label}
-                </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
-
-          {/* Start a Chapter Section */}
-          <div className="bg-[#003a89] rounded-2xl p-8 md:p-12 text-white text-center">
-            <Building2 size={48} className="mx-auto mb-6 opacity-90" />
-            <h3 className="text-3xl md:text-4xl font-bold mb-4">
-              Open a Chapter at Your School
-            </h3>
-            <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
-              Interested in bringing SportMetr to your high school? Fill out our application form to start a new chapter and join our growing network of student leaders exploring sports business, analytics, and technology.
-            </p>
-            <Link
-              to="/apply"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#003a89] rounded-full hover:bg-gray-50 transition-all hover:scale-105 font-medium"
-            >
-              Apply to Start a Chapter
-              <ArrowRight size={20} />
-            </Link>
           </div>
         </div>
 
+        {/* Open a chapter CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative rounded-3xl p-8 md:p-16 text-white text-center overflow-hidden sm-gradient-animated"
+        >
+          <div className="absolute inset-0 sm-noise" />
+          {/* Floating decorations */}
+          <div className="absolute top-8 left-8 w-24 h-24 border-2 border-white/20 rounded-full sm-float-slow pointer-events-none" />
+          <div className="absolute bottom-8 right-8 w-32 h-32 border-2 border-[#c1ff72]/40 rotate-45 sm-float pointer-events-none" />
+          <div className="absolute top-1/2 left-1/4 w-3 h-3 bg-[#ff751f] rounded-full sm-float pointer-events-none" />
+
+          <div className="relative max-w-3xl mx-auto">
+            <Building2 size={56} className="mx-auto mb-6 text-[#c1ff72]" />
+            <h3 className="text-3xl md:text-5xl font-extrabold mb-4" style={{ fontWeight: 800 }}>
+              Open a chapter at your school
+            </h3>
+            <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
+              Interested in bringing SportMetr to your high school? Fill out our application form to start a new chapter and join our growing network of student leaders.
+            </p>
+            <Link
+              to="/apply"
+              className="group inline-flex items-center gap-2 px-8 py-4 bg-[#c1ff72] text-[#0a0a0a] rounded-full font-bold uppercase tracking-wider hover:bg-white transition-all hover:scale-105 shadow-2xl"
+            >
+              Apply to Start a Chapter
+              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

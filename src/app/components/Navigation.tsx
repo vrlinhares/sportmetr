@@ -80,49 +80,54 @@ export function Navigation({ activeSection, setActiveSection }: NavigationProps)
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white shadow-md' : 'bg-white/95 backdrop-blur-sm'
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      isScrolled ? 'bg-[#f6f5ef]/95 backdrop-blur-md shadow-[0_2px_30px_rgba(0,58,137,0.08)] border-b border-[#003a89]/10' : 'bg-[#f6f5ef]/80 backdrop-blur-sm'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center gap-3 group"
+            className="flex items-center gap-3 group relative"
           >
-            <img src={logo} alt="SportMetr" className="h-14 w-auto transition-transform group-hover:scale-105" />
+            <img src={logo} alt="SportMetr" className="h-14 w-auto transition-transform duration-500 group-hover:scale-105 group-hover:rotate-[-2deg]" />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-1">
             {navItems.map((item) => (
               item.type === 'link' ? (
                 <Link
                   key={item.id}
                   to={item.path!}
-                  className={`text-sm font-medium transition-colors hover:text-[#003a89] ${
+                  className={`relative px-4 py-2 text-sm font-bold uppercase tracking-wider transition-colors hover:text-[#003a89] group ${
                     location.pathname === item.path ? 'text-[#003a89]' : 'text-gray-700'
                   }`}
                 >
                   {item.label}
+                  <span className={`absolute left-4 right-4 -bottom-1 h-0.5 bg-[#ff751f] transition-transform duration-300 origin-left ${
+                    location.pathname === item.path ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                  }`} />
                 </Link>
               ) : (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`text-sm font-medium transition-colors hover:text-[#003a89] ${
+                  className={`relative px-4 py-2 text-sm font-bold uppercase tracking-wider transition-colors hover:text-[#003a89] group ${
                     activeSection === item.id && location.pathname === '/' ? 'text-[#003a89]' : 'text-gray-700'
                   }`}
                 >
                   {item.label}
+                  <span className={`absolute left-4 right-4 -bottom-1 h-0.5 bg-[#ff751f] transition-transform duration-300 origin-left scale-x-0 group-hover:scale-x-100`} />
                 </button>
               )
             ))}
             <Link
               to="/apply"
-              className="px-6 py-2.5 bg-[#ff751f] text-white rounded-full hover:bg-[#e66a1b] transition-colors text-sm font-medium"
+              className="ml-4 group relative px-6 py-2.5 bg-[#ff751f] text-white rounded-full text-sm font-bold uppercase tracking-wider overflow-hidden transition-all hover:shadow-lg hover:scale-105"
             >
-              Open a Chapter
+              <span className="absolute inset-0 bg-[#003a89] translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+              <span className="relative">Open a Chapter</span>
             </Link>
           </div>
 
