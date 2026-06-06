@@ -4,7 +4,7 @@ import summitLogo from '../../imports/SportMetr_Summit_Logo_(1).png';
 
 export function SummitAbout() {
   return (
-    <main className="pt-20">
+    <main className="pt-28">
       {/* Back Button */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Link

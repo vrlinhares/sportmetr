@@ -13,7 +13,7 @@ export function AnnouncementBar() {
   return (
     <Link
       to="/apply"
-      className="block bg-[#003a89] text-white py-2.5 mt-20 overflow-hidden relative group hover:bg-[#002a69] transition-colors"
+      className="block bg-[#003a89] text-white py-2.5 mt-28 overflow-hidden relative group hover:bg-[#002a69] transition-colors"
     >
       <div className="flex sm-marquee-track whitespace-nowrap will-change-transform">
         {items.map((m, i) => (

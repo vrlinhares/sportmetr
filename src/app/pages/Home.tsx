@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { Hero } from '../components/Hero';
-import { About } from '../components/About';
-import { Structure } from '../components/Structure';
 import { ImageBanner } from '../components/ImageBanner';
+import { SectionPreviews } from '../components/SectionPreviews';
 import { JoinCTA } from '../components/JoinCTA';
 
 export function Home() {
@@ -25,9 +24,8 @@ export function Home() {
   return (
     <>
       <Hero />
-      <About />
-      <Structure />
       <ImageBanner />
+      <SectionPreviews />
       <JoinCTA />
     </>
   );

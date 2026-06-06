@@ -84,13 +84,13 @@ export function Navigation({ activeSection, setActiveSection }: NavigationProps)
       isScrolled ? 'bg-[#f6f5ef]/95 backdrop-blur-md shadow-[0_2px_30px_rgba(0,58,137,0.08)] border-b border-[#003a89]/10' : 'bg-[#f6f5ef]/80 backdrop-blur-sm'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-28">
           {/* Logo */}
           <Link
             to="/"
             className="flex items-center gap-3 group relative"
           >
-            <img src={logo} alt="SportMetr" className="h-14 w-auto transition-transform duration-500 group-hover:scale-105 group-hover:rotate-[-2deg]" />
+            <img src={logo} alt="SportMetr" className="h-20 w-auto transition-transform duration-500 group-hover:scale-105 group-hover:rotate-[-2deg]" />
           </Link>
 
           {/* Desktop Navigation */}
