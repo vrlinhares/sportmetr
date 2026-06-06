@@ -7,8 +7,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-black text-white overflow-hidden">
-      <div className="absolute inset-0 sm-gradient-animated opacity-90" />
+    <footer className="relative bg-[#003a89] text-white overflow-hidden">
       <div className="absolute inset-0 sm-noise" />
 
       {/* Decorative floating shapes */}
