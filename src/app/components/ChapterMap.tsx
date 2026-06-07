@@ -25,37 +25,42 @@ type Chapter = {
 const chapters: Chapter[] = [
   {
     id: 'tbsrj',
+    // Rua Mário Autuori 100, Barra da Tijuca/Recreio extension, Rio
     name: 'The British School Rio de Janeiro (Barra)',
     location: 'Rio de Janeiro, BRA',
-    coords: [-43.3645, -22.9988],
+    coords: [-43.4756, -23.0247],
     status: 'active',
   },
   {
     id: 'rio-2',
+    // Av. José Silva de Azevedo Neto 309, Península, Barra da Tijuca, Rio (Escola Eleva)
     name: 'Opening Soon',
     location: 'Rio de Janeiro, BRA',
-    coords: [-43.18, -22.90],
+    coords: [-43.3585, -22.9968],
     status: 'launching',
   },
   {
     id: 'sao-paulo',
+    // Rua Juquiá 166, Jardim Paulistano, São Paulo (St. Paul's)
     name: 'Opening Soon',
     location: 'São Paulo, BRA',
-    coords: [-46.6333, -23.5505],
+    coords: [-46.6357, -23.5852],
     status: 'launching',
   },
   {
     id: 'campinas',
+    // Rua Cajamar 35, Jardim Alto da Barra, Campinas (EAC)
     name: 'Opening Soon',
     location: 'Campinas, BRA',
-    coords: [-47.0608, -22.9056],
+    coords: [-47.0366, -22.8833],
     status: 'launching',
   },
   {
     id: 'rockville',
+    // 250 Richard Montgomery Dr, Rockville, MD (RMHS)
     name: 'Opening Soon',
     location: 'Rockville, USA',
-    coords: [-77.1528, 39.084],
+    coords: [-77.1456, 39.0773],
     status: 'launching',
   },
 ];
@@ -90,7 +95,7 @@ function ChapterPin({
   const baseR = isMobile ? 11 : 5;
   const selR = isMobile ? 15 : 8;
   const pulseMax = isMobile ? 30 : 16;
-  const hitR = isMobile ? 30 : 20;
+  const hitR = isMobile ? 15 : 8;
 
   return (
     <Marker coordinates={chapter.coords}>
@@ -139,8 +144,8 @@ function ChapterPin({
               transition={{ duration: 0.18 }}
               style={{ pointerEvents: 'none' }}
             >
-              <line x1={0} y1={-(baseR + 2)} x2={0} y2={-(baseR + 14)} stroke="#003a89" strokeWidth={1.5} />
-              <foreignObject x={-110} y={-(baseR + 90)} width={220} height={80} style={{ overflow: 'visible' }}>
+              <line x1={0} y1={-(baseR + 2)} x2={0} y2={-(baseR + 10)} stroke="#003a89" strokeWidth={1.5} />
+              <foreignObject x={-110} y={-(baseR + 56)} width={220} height={46} style={{ overflow: 'visible' }}>
                 <div className="bg-white rounded-xl px-3 py-2.5 shadow-2xl border-2 border-[#003a89] inline-block">
                   <div className="text-[9px] font-bold uppercase tracking-widest text-gray-400 leading-none mb-1">
                     {chapter.location}
@@ -202,7 +207,7 @@ export function ChapterMap() {
               zoom={zoom}
               center={center}
               minZoom={0.6}
-              maxZoom={8}
+              maxZoom={64}
               onMoveEnd={({ coordinates, zoom: z }: { coordinates: [number, number]; zoom: number }) => {
                 setCenter(coordinates);
                 setZoom(z);
@@ -263,16 +268,18 @@ export function ChapterMap() {
                 }
               </Geographies>
 
-              {chapters.map((c) => (
-                <ChapterPin
-                  key={c.id}
-                  chapter={c}
-                  selected={selected}
-                  onSelect={setSelected}
-                  inverseScale={inverseScale}
-                  isMobile={isMobile}
-                />
-              ))}
+              {[...chapters]
+                .sort((a, b) => (a.status === 'active' ? 1 : 0) - (b.status === 'active' ? 1 : 0))
+                .map((c) => (
+                  <ChapterPin
+                    key={c.id}
+                    chapter={c}
+                    selected={selected}
+                    onSelect={setSelected}
+                    inverseScale={inverseScale}
+                    isMobile={isMobile}
+                  />
+                ))}
             </ZoomableGroup>
           </ComposableMap>
         </div>
