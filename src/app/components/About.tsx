@@ -166,10 +166,26 @@ export function About() {
           >
             The team behind the movement
           </motion.p>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-20">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-20 mb-20">
             <Founder name="Vitor Linhares" role="Co-Founder · Head of Expansion" image={vitorImage} />
             <Founder name="Guilherme Cavalcanti" role="Co-Founder · Lead Content Organiser" image={guilhermeImage} scale={1.75} />
           </div>
+
+          {/* Origin Story */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl mx-auto text-left"
+          >
+            <div className="inline-flex items-center gap-3 px-4 py-2 bg-[#003a89]/10 text-[#003a89] rounded-full text-xs font-bold tracking-widest mb-6 uppercase">
+              How it started
+            </div>
+            <p className="text-lg text-gray-700 leading-relaxed">
+              SportMetr started in 2024 as a single sports business and analytics club at our school. Watching classmates spend class time on betting apps, we wanted to share our passion for the statistical side of sports by converting their energy into productive interests and market-demanded skills. Starting in 2026, we are expanding into a network so that more students are able to share these opportunities with their classmates and beyond.
+            </p>
+          </motion.div>
         </div>
       </div>
     </section>
