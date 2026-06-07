@@ -97,7 +97,7 @@ function Founder({ name, role, image, scale }: { name: string; role: string; ima
             src={image}
             alt={name}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            style={scale ? { transform: `scale(${scale}) translateX(12px)` } : undefined}
+            style={scale ? { transform: `scale(${scale}) translateX(6px)` } : undefined}
           />
         </div>
       </div>
