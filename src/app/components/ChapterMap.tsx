@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from 'react-simple-maps';
 
 type Chapter = {
   id: string;
   name: string;
   location: string;
-  x: number;
-  y: number;
+  coords: [number, number]; // [lng, lat]
   status: 'active' | 'launching';
 };
 
@@ -15,40 +15,35 @@ const chapters: Chapter[] = [
     id: 'tbsrj',
     name: 'The British School Rio de Janeiro (Barra)',
     location: 'Rio de Janeiro, BRA',
-    x: 420,
-    y: 525,
+    coords: [-43.3645, -22.9988],
     status: 'active',
   },
   {
     id: 'rio-2',
     name: 'Opening Soon',
     location: 'Rio de Janeiro, BRA',
-    x: 432,
-    y: 518,
+    coords: [-43.18, -22.90],
     status: 'launching',
   },
   {
     id: 'sao-paulo',
     name: 'Opening Soon',
     location: 'São Paulo, BRA',
-    x: 398,
-    y: 540,
+    coords: [-46.6333, -23.5505],
     status: 'launching',
   },
   {
     id: 'campinas',
     name: 'Opening Soon',
     location: 'Campinas, BRA',
-    x: 388,
-    y: 532,
+    coords: [-47.0608, -22.9056],
     status: 'launching',
   },
   {
     id: 'rockville',
     name: 'Opening Soon',
     location: 'Rockville, USA',
-    x: 245,
-    y: 180,
+    coords: [-77.1528, 39.084],
     status: 'launching',
   },
 ];
@@ -58,52 +53,45 @@ const STATUS_COLORS = {
   launching: '#ff751f',
 };
 
-// Simplified but recognizable Americas silhouette (stylised, not survey-accurate)
-const USA_PATH =
-  'M 70 110 L 120 95 L 200 88 L 290 90 L 360 100 L 380 130 L 365 160 L 350 180 L 345 210 L 305 220 L 250 218 L 200 210 L 160 195 L 120 175 L 90 155 Z';
-const MEXICO_PATH =
-  'M 200 220 L 260 222 L 285 245 L 290 280 L 305 305 L 280 320 L 250 305 L 225 280 L 210 250 Z';
-const CENTRAL_PATH =
-  'M 305 308 L 335 318 L 348 340 L 330 358 L 310 348 Z';
-const BRAZIL_PATH =
-  'M 340 410 L 405 388 L 455 400 L 478 430 L 475 475 L 458 515 L 425 548 L 388 555 L 358 540 L 342 510 L 332 470 L 330 435 Z';
-const SOUTH_REST_PATH =
-  'M 332 425 L 348 470 L 342 525 L 328 575 L 315 615 L 305 595 L 305 545 L 312 490 L 322 450 Z';
+// World topojson hosted on jsdelivr — public, cached
+const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 
-function Pin({ chapter, hovered, onHover }: { chapter: Chapter; hovered: string | null; onHover: (id: string | null) => void }) {
+function ChapterPin({ chapter, hovered, onHover }: { chapter: Chapter; hovered: string | null; onHover: (id: string | null) => void }) {
   const color = STATUS_COLORS[chapter.status];
   const isHover = hovered === chapter.id;
   return (
-    <g
+    <Marker
+      coordinates={chapter.coords}
       onMouseEnter={() => onHover(chapter.id)}
       onMouseLeave={() => onHover(null)}
-      style={{ cursor: 'pointer' }}
+      style={{ default: { cursor: 'pointer' }, hover: { cursor: 'pointer' }, pressed: { cursor: 'pointer' } }}
     >
-      {/* Outer pulse ring */}
+      {/* Pulse rings */}
       <motion.circle
-        cx={chapter.x}
-        cy={chapter.y}
-        r={6}
+        r={4}
         fill={color}
         fillOpacity={0.4}
-        animate={{ r: [6, 22], opacity: [0.5, 0] }}
+        animate={{ r: [4, 16], opacity: [0.6, 0] }}
         transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }}
       />
-      {/* Second pulse (offset) */}
       <motion.circle
-        cx={chapter.x}
-        cy={chapter.y}
-        r={6}
+        r={4}
         fill={color}
         fillOpacity={0.4}
-        animate={{ r: [6, 22], opacity: [0.5, 0] }}
+        animate={{ r: [4, 16], opacity: [0.6, 0] }}
         transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut', delay: 1.1 }}
       />
-      {/* Static dot */}
-      <circle cx={chapter.x} cy={chapter.y} r={isHover ? 10 : 7} fill={color} stroke="#003a89" strokeWidth={2.5} style={{ transition: 'r 0.2s' }} />
+      {/* Dot */}
+      <circle
+        r={isHover ? 7 : 5}
+        fill={color}
+        stroke="#003a89"
+        strokeWidth={1.8}
+        style={{ transition: 'r 0.2s' }}
+      />
       {/* Hit area */}
-      <circle cx={chapter.x} cy={chapter.y} r={24} fill="transparent" />
-    </g>
+      <circle r={18} fill="transparent" />
+    </Marker>
   );
 }
 
@@ -118,74 +106,60 @@ export function ChapterMap() {
       <div className="grid lg:grid-cols-5 gap-8 items-center">
         {/* Map */}
         <div className="lg:col-span-3 relative">
-          <div className="relative rounded-3xl bg-[#003a89] p-6 md:p-10 overflow-hidden border-2 border-[#003a89]">
+          <div className="relative rounded-3xl bg-[#003a89] p-4 md:p-6 overflow-hidden">
             {/* Dot grid background */}
             <svg
               className="absolute inset-0 w-full h-full pointer-events-none opacity-30"
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
-                <pattern id="dotgrid" x="0" y="0" width="18" height="18" patternUnits="userSpaceOnUse">
+                <pattern id="dotgrid-map" x="0" y="0" width="18" height="18" patternUnits="userSpaceOnUse">
                   <circle cx="2" cy="2" r="1.1" fill="#c1ff72" />
                 </pattern>
               </defs>
-              <rect width="100%" height="100%" fill="url(#dotgrid)" />
+              <rect width="100%" height="100%" fill="url(#dotgrid-map)" />
             </svg>
 
-            <svg
-              viewBox="0 0 600 700"
-              xmlns="http://www.w3.org/2000/svg"
-              className="relative w-full h-auto"
-              style={{ maxHeight: '520px' }}
-            >
-              {/* Country silhouettes */}
-              <g>
-                {[USA_PATH, MEXICO_PATH, CENTRAL_PATH, BRAZIL_PATH, SOUTH_REST_PATH].map((d, i) => (
-                  <motion.path
-                    key={i}
-                    d={d}
-                    fill="#003a89"
-                    stroke="#c1ff72"
-                    strokeWidth={1.5}
-                    strokeOpacity={0.4}
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    whileInView={{ pathLength: 1, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.4, delay: i * 0.15, ease: 'easeInOut' }}
-                  />
-                ))}
-              </g>
+            <div className="relative">
+              <ComposableMap
+                projection="geoMercator"
+                projectionConfig={{
+                  scale: 360,
+                  center: [-60, -10],
+                }}
+                style={{ width: '100%', height: 'auto' }}
+              >
+                <ZoomableGroup zoom={1} minZoom={1} maxZoom={1}>
+                  <Geographies geography={GEO_URL}>
+                    {({ geographies }) =>
+                      geographies.map((geo) => {
+                        const isAmerica = ['Brazil', 'United States of America', 'Mexico', 'Canada', 'Argentina', 'Colombia', 'Peru', 'Venezuela', 'Chile', 'Bolivia', 'Ecuador', 'Paraguay', 'Uruguay', 'Guyana', 'Suriname', 'French Guiana', 'Panama', 'Costa Rica', 'Nicaragua', 'Honduras', 'El Salvador', 'Guatemala', 'Belize', 'Cuba', 'Haiti', 'Dominican Republic', 'Jamaica', 'Bahamas', 'Puerto Rico', 'Trinidad and Tobago', 'Greenland'].includes(geo.properties.name);
+                        return (
+                          <Geography
+                            key={geo.rsmKey}
+                            geography={geo}
+                            fill={isAmerica ? '#0a2553' : '#082043'}
+                            stroke="#c1ff72"
+                            strokeWidth={0.4}
+                            strokeOpacity={isAmerica ? 0.7 : 0.25}
+                            style={{
+                              default: { outline: 'none' },
+                              hover: { outline: 'none', fill: isAmerica ? '#0d2d63' : '#082043' },
+                              pressed: { outline: 'none' },
+                            }}
+                          />
+                        );
+                      })
+                    }
+                  </Geographies>
 
-              {/* Connection arcs between chapters */}
-              {chapters.slice(1).map((c, i) => {
-                const from = chapters[0];
-                const midX = (from.x + c.x) / 2;
-                const midY = (from.y + c.y) / 2 - Math.abs(from.x - c.x) * 0.25;
-                const d = `M ${from.x} ${from.y} Q ${midX} ${midY} ${c.x} ${c.y}`;
-                return (
-                  <motion.path
-                    key={c.id}
-                    d={d}
-                    fill="none"
-                    stroke="#c1ff72"
-                    strokeWidth={1.2}
-                    strokeDasharray="4 6"
-                    strokeOpacity={0.5}
-                    initial={{ pathLength: 0 }}
-                    whileInView={{ pathLength: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.4, delay: 0.6 + i * 0.2 }}
-                  />
-                );
-              })}
+                  {chapters.map((c) => (
+                    <ChapterPin key={c.id} chapter={c} hovered={hovered} onHover={setHovered} />
+                  ))}
+                </ZoomableGroup>
+              </ComposableMap>
+            </div>
 
-              {/* Pins */}
-              {chapters.map((c) => (
-                <Pin key={c.id} chapter={c} hovered={hovered} onHover={setHovered} />
-              ))}
-            </svg>
-
-            {/* Compass label */}
             <div className="absolute top-4 right-4 text-[10px] text-[#c1ff72]/60 font-bold tracking-widest uppercase">
               The Americas
             </div>
@@ -256,6 +230,8 @@ export function ChapterMap() {
               style={{ backgroundColor: STATUS_COLORS[chapters.find((c) => c.id === hovered)!.status] }}
             />
             {chapters.find((c) => c.id === hovered)?.name}
+            <span className="text-white/60 font-normal">·</span>
+            <span className="text-[#c1ff72]">{chapters.find((c) => c.id === hovered)?.location}</span>
           </motion.div>
         )}
       </AnimatePresence>
