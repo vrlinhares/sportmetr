@@ -124,7 +124,7 @@ export function ChapterMap() {
               <ComposableMap
                 projection="geoMercator"
                 projectionConfig={{
-                  scale: 360,
+                  scale: 240,
                   center: [-60, -10],
                 }}
                 style={{ width: '100%', height: 'auto' }}

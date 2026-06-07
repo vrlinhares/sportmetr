@@ -21,7 +21,7 @@ function FloatingWord({ word, mx, my }: { word: typeof floatingWords[number]; mx
       animate={{ opacity: 0.32, scale: 1 }}
       transition={{ delay: word.delay, duration: 1.2, ease: 'easeOut' }}
       style={{ left: word.x, top: word.y, x: px, y: py, color: word.color }}
-      className={`absolute font-extrabold tracking-tight ${word.size} pointer-events-none select-none uppercase`}
+      className={`hidden lg:block absolute font-extrabold tracking-tight ${word.size} pointer-events-none select-none uppercase`}
     >
       {word.text}
     </motion.div>
@@ -106,7 +106,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-6xl md:text-7xl lg:text-8xl font-extrabold text-[#0a0a0a] leading-[0.95] mb-8 tracking-tight"
+            className="text-[2.75rem] sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-[#0a0a0a] leading-[0.95] mb-8 tracking-tight"
             style={{ fontWeight: 800 }}
           >
             Learn the
