@@ -92,10 +92,16 @@ function ChapterPin({
   const isSelected = selected === chapter.id;
 
   const s = inverseScale;
-  const baseR = isMobile ? 11 : 5;
-  const selR = isMobile ? 15 : 8;
-  const pulseMax = isMobile ? 30 : 16;
-  const hitR = isMobile ? 15 : 8;
+  const baseR = isMobile ? 11 : 8;
+  const selR = isMobile ? 15 : 11;
+  const pulseMax = isMobile ? 30 : 22;
+  const hitR = isMobile ? 15 : 11;
+
+  // Popup sizes (in SVG units). Mobile needs bigger units to compensate for
+  // the smaller container width that the SVG scales down to.
+  const popupW = isMobile ? 360 : 220;
+  const popupH = isMobile ? 80 : 46;
+  const popupYOffset = isMobile ? 92 : 56;
 
   return (
     <Marker coordinates={chapter.coords}>
@@ -144,15 +150,30 @@ function ChapterPin({
               transition={{ duration: 0.18 }}
               style={{ pointerEvents: 'none' }}
             >
-              <line x1={0} y1={-(baseR + 2)} x2={0} y2={-(baseR + 10)} stroke="#003a89" strokeWidth={1.5} />
-              <foreignObject x={-110} y={-(baseR + 56)} width={220} height={46} style={{ overflow: 'visible' }}>
-                <div className="bg-white rounded-xl px-3 py-2.5 shadow-2xl border-2 border-[#003a89] inline-block">
-                  <div className="text-[9px] font-bold uppercase tracking-widest text-gray-400 leading-none mb-1">
+              <line x1={0} y1={-(baseR + 2)} x2={0} y2={-(baseR + 10)} stroke="#003a89" strokeWidth={isMobile ? 2.5 : 1.5} />
+              <foreignObject
+                x={-popupW / 2}
+                y={-(baseR + popupYOffset)}
+                width={popupW}
+                height={popupH}
+                style={{ overflow: 'visible' }}
+              >
+                <div
+                  className="bg-white rounded-xl shadow-2xl border-2 border-[#003a89] inline-block"
+                  style={{
+                    padding: isMobile ? '10px 16px' : '8px 12px',
+                    borderWidth: isMobile ? '3px' : '2px',
+                  }}
+                >
+                  <div
+                    className="font-bold uppercase tracking-widest text-gray-400 leading-none"
+                    style={{ fontSize: isMobile ? '15px' : '9px', marginBottom: isMobile ? '6px' : '4px' }}
+                  >
                     {chapter.location}
                   </div>
                   <div
-                    className="text-xs font-extrabold text-[#0a0a0a] leading-tight whitespace-nowrap"
-                    style={{ fontWeight: 800 }}
+                    className="font-extrabold text-[#0a0a0a] leading-tight whitespace-nowrap"
+                    style={{ fontWeight: 800, fontSize: isMobile ? '20px' : '12px' }}
                   >
                     {chapter.name}
                   </div>
