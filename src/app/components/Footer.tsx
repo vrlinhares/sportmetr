@@ -71,7 +71,7 @@ export function Footer() {
           transition={{ duration: 1.2 }}
           className="text-center py-8 select-none"
         >
-          <div className="text-[6rem] md:text-[10rem] lg:text-[14rem] font-extrabold leading-none tracking-tighter text-[#c1ff72]" style={{ fontWeight: 800 }}>
+          <div className="text-[3rem] sm:text-[5rem] md:text-[8rem] lg:text-[12rem] font-extrabold leading-none tracking-tighter text-[#c1ff72] break-all" style={{ fontWeight: 800 }}>
             SPORTMETR
           </div>
         </motion.div>

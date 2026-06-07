@@ -169,13 +169,13 @@ export function Structure() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="relative rounded-3xl p-8 md:p-16 text-white text-center overflow-hidden sm-gradient-animated"
+          className="relative rounded-3xl p-8 md:p-16 text-white text-center overflow-hidden bg-[#003a89]"
         >
           <div className="absolute inset-0 sm-noise" />
-          {/* Floating decorations */}
-          <div className="absolute top-8 left-8 w-24 h-24 border-2 border-white/20 rounded-full sm-float-slow pointer-events-none" />
-          <div className="absolute bottom-8 right-8 w-32 h-32 border-2 border-[#c1ff72]/40 rotate-45 sm-float pointer-events-none" />
-          <div className="absolute top-1/2 left-1/4 w-3 h-3 bg-[#ff751f] rounded-full sm-float pointer-events-none" />
+          {/* Floating decorations — hidden on mobile to avoid text overlap */}
+          <div className="hidden md:block absolute top-8 left-8 w-24 h-24 border-2 border-white/20 rounded-full sm-float-slow pointer-events-none" />
+          <div className="hidden md:block absolute bottom-8 right-8 w-32 h-32 border-2 border-[#c1ff72]/40 rotate-45 sm-float pointer-events-none" />
+          <div className="hidden md:block absolute top-1/2 left-1/4 w-3 h-3 bg-[#ff751f] rounded-full sm-float pointer-events-none" />
 
           <div className="relative max-w-3xl mx-auto">
             <Building2 size={56} className="mx-auto mb-6 text-[#c1ff72]" />

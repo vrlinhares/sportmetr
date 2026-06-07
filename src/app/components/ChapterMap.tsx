@@ -1,7 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from 'react-simple-maps';
-import { Plus, Minus, RotateCcw } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+  return isMobile;
+}
 
 type Chapter = {
   id: string;
@@ -64,51 +75,53 @@ function ChapterPin({
   selected,
   onSelect,
   inverseScale,
+  isMobile,
 }: {
   chapter: Chapter;
   selected: string | null;
   onSelect: (id: string | null) => void;
   inverseScale: number;
+  isMobile: boolean;
 }) {
   const color = STATUS_COLORS[chapter.status];
   const isSelected = selected === chapter.id;
 
-  // counter-scale so pin and popup stay constant size regardless of zoom
   const s = inverseScale;
+  const baseR = isMobile ? 11 : 5;
+  const selR = isMobile ? 15 : 8;
+  const pulseMax = isMobile ? 30 : 16;
+  const hitR = isMobile ? 30 : 20;
 
   return (
     <Marker coordinates={chapter.coords}>
       <g style={{ transform: `scale(${s})`, transformOrigin: '0 0' }}>
-        {/* Pulse rings */}
         <motion.circle
-          r={4}
+          r={baseR - 1}
           fill={color}
           fillOpacity={0.4}
-          animate={{ r: [4, 16], opacity: [0.6, 0] }}
+          animate={{ r: [baseR - 1, pulseMax], opacity: [0.6, 0] }}
           transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }}
         />
         <motion.circle
-          r={4}
+          r={baseR - 1}
           fill={color}
           fillOpacity={0.4}
-          animate={{ r: [4, 16], opacity: [0.6, 0] }}
+          animate={{ r: [baseR - 1, pulseMax], opacity: [0.6, 0] }}
           transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut', delay: 1.1 }}
         />
-        {/* Dot */}
         <circle
-          r={isSelected ? 8 : 5}
+          r={isSelected ? selR : baseR}
           fill={color}
           stroke="#003a89"
-          strokeWidth={1.8}
+          strokeWidth={isMobile ? 2.5 : 1.8}
           style={{ cursor: 'pointer', transition: 'r 0.2s' }}
           onClick={(e) => {
             e.stopPropagation();
             onSelect(isSelected ? null : chapter.id);
           }}
         />
-        {/* Hit area */}
         <circle
-          r={20}
+          r={hitR}
           fill="transparent"
           style={{ cursor: 'pointer' }}
           onClick={(e) => {
@@ -117,7 +130,6 @@ function ChapterPin({
           }}
         />
 
-        {/* Popup */}
         <AnimatePresence>
           {isSelected && (
             <motion.g
@@ -125,13 +137,11 @@ function ChapterPin({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 4 }}
               transition={{ duration: 0.18 }}
+              style={{ pointerEvents: 'none' }}
             >
-              {/* Connector line */}
-              <line x1={0} y1={-6} x2={0} y2={-18} stroke="#003a89" strokeWidth={1.5} />
-              <foreignObject x={-110} y={-100} width={220} height={80} style={{ overflow: 'visible' }}>
-                <div
-                  className="bg-white rounded-xl px-3 py-2.5 shadow-2xl border-2 border-[#003a89] inline-block"
-                >
+              <line x1={0} y1={-(baseR + 2)} x2={0} y2={-(baseR + 14)} stroke="#003a89" strokeWidth={1.5} />
+              <foreignObject x={-110} y={-(baseR + 90)} width={220} height={80} style={{ overflow: 'visible' }}>
+                <div className="bg-white rounded-xl px-3 py-2.5 shadow-2xl border-2 border-[#003a89] inline-block">
                   <div className="text-[9px] font-bold uppercase tracking-widest text-gray-400 leading-none mb-1">
                     {chapter.location}
                   </div>
@@ -155,6 +165,7 @@ export function ChapterMap() {
   const [selected, setSelected] = useState<string | null>(null);
   const [zoom, setZoom] = useState(DEFAULT_ZOOM);
   const [center, setCenter] = useState<[number, number]>(DEFAULT_CENTER);
+  const isMobile = useIsMobile();
 
   const activeCount = chapters.filter((c) => c.status === 'active').length;
   const launchingCount = chapters.filter((c) => c.status === 'launching').length;
@@ -163,7 +174,10 @@ export function ChapterMap() {
 
   return (
     <div className="relative w-full">
-      <div className="relative rounded-3xl bg-[#003a89] overflow-hidden">
+      <div
+        className="relative rounded-3xl bg-[#003a89] overflow-hidden"
+        style={{ height: 'min(65vh, 640px)' }}
+      >
         {/* Dot grid background */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-25" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -174,11 +188,15 @@ export function ChapterMap() {
           <rect width="100%" height="100%" fill="url(#dotgrid-map)" />
         </svg>
 
-        <div className="relative w-full" onClick={() => setSelected(null)} style={{ cursor: 'grab' }}>
+        <div
+          className="relative w-full h-full"
+          onClick={() => setSelected(null)}
+          style={{ cursor: 'grab' }}
+        >
           <ComposableMap
             projection="geoMercator"
             projectionConfig={{ scale: 240, center: DEFAULT_CENTER }}
-            style={{ width: '100%', height: 'auto', display: 'block' }}
+            style={{ width: '100%', height: '100%', display: 'block' }}
           >
             <ZoomableGroup
               zoom={zoom}
@@ -252,6 +270,7 @@ export function ChapterMap() {
                   selected={selected}
                   onSelect={setSelected}
                   inverseScale={inverseScale}
+                  isMobile={isMobile}
                 />
               ))}
             </ZoomableGroup>
@@ -272,11 +291,6 @@ export function ChapterMap() {
               Launching · {launchingCount}
             </span>
           </div>
-        </div>
-
-        {/* Compass label */}
-        <div className="absolute top-4 right-4 text-[10px] text-[#c1ff72]/60 font-bold tracking-widest uppercase z-10">
-          The Americas
         </div>
 
         {/* Zoom controls */}
@@ -301,23 +315,6 @@ export function ChapterMap() {
           >
             <Minus size={18} strokeWidth={3} />
           </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setZoom(DEFAULT_ZOOM);
-              setCenter(DEFAULT_CENTER);
-              setSelected(null);
-            }}
-            className="w-10 h-10 rounded-xl bg-[#003a89] hover:bg-[#0a2553] text-[#c1ff72] border-2 border-[#c1ff72] flex items-center justify-center font-bold shadow-lg transition-colors"
-            aria-label="Reset view"
-          >
-            <RotateCcw size={16} strokeWidth={3} />
-          </button>
-        </div>
-
-        {/* Hint */}
-        <div className="absolute bottom-4 left-4 text-[10px] text-[#c1ff72]/60 font-bold tracking-widest uppercase z-10 max-w-[160px] leading-relaxed">
-          Click a pin · scroll or drag to explore
         </div>
       </div>
     </div>

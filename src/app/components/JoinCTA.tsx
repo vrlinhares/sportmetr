@@ -49,16 +49,16 @@ export function JoinCTA() {
             initial={{ opacity: 0, y: 40 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="relative rounded-[40px] p-8 md:p-16 overflow-hidden sm-gradient-animated text-white"
+            className="relative rounded-[40px] p-8 md:p-16 overflow-hidden bg-[#003a89] text-white"
           >
             <div className="absolute inset-0 sm-noise" />
-            {/* Floating shapes */}
-            <div className="absolute -top-12 -right-12 w-48 h-48 bg-[#c1ff72]/20 rounded-full blur-3xl sm-float-slow pointer-events-none" />
-            <div className="absolute -bottom-12 -left-12 w-56 h-56 bg-[#ff751f]/20 rounded-full blur-3xl sm-float pointer-events-none" />
+            {/* Floating shapes — hidden on mobile to avoid text overlap */}
+            <div className="hidden md:block absolute -top-12 -right-12 w-48 h-48 bg-[#c1ff72]/20 rounded-full blur-3xl sm-float-slow pointer-events-none" />
+            <div className="hidden md:block absolute -bottom-12 -left-12 w-56 h-56 bg-[#ff751f]/20 rounded-full blur-3xl sm-float pointer-events-none" />
             <motion.div
               animate={{ rotate: [0, 360] }}
               transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-              className="absolute top-12 right-12 w-20 h-20 border-2 border-[#c1ff72]/40 pointer-events-none"
+              className="hidden md:block absolute top-12 right-12 w-20 h-20 border-2 border-[#c1ff72]/40 pointer-events-none"
               style={{ borderRadius: '30%' }}
             />
 
