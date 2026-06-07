@@ -18,7 +18,7 @@ function FloatingWord({ word, mx, my }: { word: typeof floatingWords[number]; mx
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 0.18, scale: 1 }}
+      animate={{ opacity: 0.32, scale: 1 }}
       transition={{ delay: word.delay, duration: 1.2, ease: 'easeOut' }}
       style={{ left: word.x, top: word.y, x: px, y: py, color: word.color }}
       className={`absolute font-extrabold tracking-tight ${word.size} pointer-events-none select-none uppercase`}
