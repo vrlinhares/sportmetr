@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, animate } from 'motion/react';
 import { Building2, MessageCircle, Network, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
+import { ChapterMap } from './ChapterMap';
 
 const stats = [
   { value: 1, label: 'Active Chapter', color: '#ff751f' },
@@ -141,6 +142,26 @@ export function Structure() {
             ))}
           </div>
         </div>
+
+        {/* Interactive chapter map */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.8 }}
+          className="mb-20"
+        >
+          <h3
+            className="text-3xl md:text-4xl font-extrabold text-center mb-3 text-[#0a0a0a]"
+            style={{ fontWeight: 800 }}
+          >
+            Where we are
+          </h3>
+          <p className="text-center text-gray-600 mb-10 max-w-xl mx-auto">
+            Hover or tap a pin to see the chapter behind it.
+          </p>
+          <ChapterMap />
+        </motion.div>
 
         {/* Open a chapter CTA */}
         <motion.div
