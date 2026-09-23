@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git -c credential.https://github.com.helper= -c credential.helper=osxkeychain push)"
+    ]
+  }
+}
