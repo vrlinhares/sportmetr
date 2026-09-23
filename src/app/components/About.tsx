@@ -228,7 +228,7 @@ export function About() {
               <div className="p-8 rounded-3xl bg-white border-2 border-[#003a89]/10">
                 <div className="w-12 h-1.5 rounded-full bg-[#003a89] mb-6" />
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  When tendinitis in both knees ended my time playing competitive soccer, I still had a classroom to walk into the next morning and a future waiting beyond the field. Not everyone does. So many people pour everything into this game, yet only a fraction will ever go pro. SportMetr is here to show them that loving sport doesn't have to end at the sideline. The business, data, and technology behind the game are real careers too, open to anyone who loves it.
+                  When tendinitis in both knees ended my time playing competitive soccer, I still had a classroom to walk into the next morning and a future waiting beyond the field. Many of my teammates in Brazil didn't have that same classroom waiting for them. So many people pour everything into this game, yet only a fraction will ever go pro. SportMetr is here to show them that loving sport doesn't have to end at the sideline. The business, data, and technology behind the game are real careers too, open to anyone who loves it.
                 </p>
                 <p className="text-sm font-bold text-[#003a89] uppercase tracking-widest">
                   Vitor, Co-Founder
