@@ -63,7 +63,7 @@ export function SummitAbout() {
                 The SportMetr Summit BRA is our flagship event taking place in Brazil. This summit brings together students passionate about sports with leading professionals from the sports business, analytics, and technology industries.
               </p>
               <p>
-                Open to all interested students — you don't need to be a SportMetr member to attend. Experience engaging keynote lectures from big names in the industry, network with like-minded peers, and gain insights into the future of sports through data and technology.
+                Open to all interested students. You don't need to be a SportMetr member to attend. Experience engaging keynote lectures from big names in the industry, network with like-minded peers, and gain insights into the future of sports through data and technology.
               </p>
             </div>
 

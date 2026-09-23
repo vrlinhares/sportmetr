@@ -177,7 +177,7 @@ export function SummitTickets() {
                     Who can attend the summit?
                   </h4>
                   <p className="text-gray-600">
-                    The summit is open to all students interested in sports business, analytics, and technology. You don't need to be a SportMetr member to attend — everyone passionate about sports is welcome!
+                    The summit is open to all students interested in sports business, analytics, and technology. You don't need to be a SportMetr member to attend, and everyone passionate about sports is welcome!
                   </p>
                 </div>
                 <div>

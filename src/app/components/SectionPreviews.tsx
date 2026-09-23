@@ -7,7 +7,7 @@ const previews = [
     icon: Compass,
     label: 'About SportMetr',
     title: 'The mission, the people, the why',
-    description: 'How we make sports analytics education accessible — and the founders behind the movement.',
+    description: 'How we make sports analytics education accessible, and the founders behind the movement.',
     href: '/about',
     accent: '#ff751f',
   },
