@@ -50,10 +50,10 @@ const chapters: Chapter[] = [
   {
     id: 'campinas',
     // Rua Cajamar 35, Jardim Alto da Barra, Campinas (EAC)
-    name: 'Opening Soon',
+    name: 'Escola Americana de Campinas',
     location: 'Campinas, BRA',
     coords: [-47.0366, -22.8833],
-    status: 'launching',
+    status: 'active',
   },
   {
     id: 'rockville',

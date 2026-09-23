@@ -5,8 +5,8 @@ import { Link } from 'react-router';
 import { ChapterMap } from './ChapterMap';
 
 const stats = [
-  { value: 1, label: 'Active Chapter', color: '#ff751f' },
-  { value: 4, label: 'Launching Soon', color: '#c1ff72' },
+  { value: 2, label: 'Active Chapters', color: '#ff751f' },
+  { value: 3, label: 'Launching Soon', color: '#c1ff72' },
   { value: 2, label: 'Countries', color: '#003a89' },
 ];
 
