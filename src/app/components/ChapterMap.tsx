@@ -345,6 +345,34 @@ export function ChapterMap() {
           </button>
         </div>
       </div>
+
+      {/* Chapter list */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+        {[...chapters]
+          .sort((a, b) => (a.status === 'active' ? 0 : 1) - (b.status === 'active' ? 0 : 1))
+          .map((c) => (
+            <div
+              key={c.id}
+              className="flex items-start gap-3 p-4 rounded-2xl border-2 border-[#003a89]/10 bg-white"
+            >
+              <span
+                className="mt-1.5 w-3 h-3 rounded-full flex-shrink-0"
+                style={{ backgroundColor: STATUS_COLORS[c.status] }}
+              />
+              <div>
+                <div className="text-[11px] font-bold uppercase tracking-widest text-gray-400">
+                  {c.location}
+                </div>
+                <div className="font-extrabold text-[#0a0a0a] leading-tight" style={{ fontWeight: 800 }}>
+                  {c.name}
+                </div>
+                <div className="text-xs font-semibold mt-1 text-gray-500">
+                  {c.status === 'active' ? 'Active' : 'Launching soon'}
+                </div>
+              </div>
+            </div>
+          ))}
+      </div>
     </div>
   );
 }
