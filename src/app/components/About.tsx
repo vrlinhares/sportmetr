@@ -237,7 +237,7 @@ export function About() {
               <div className="p-8 rounded-3xl bg-white border-2 border-[#003a89]/10">
                 <div className="w-12 h-1.5 rounded-full bg-[#ff751f] mb-6" />
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  When sports betting exploded across Rio de Janeiro in 2024, it reached my school, with classmates spending more time on betting apps than on the game itself. The following year, at Wharton's Moneyball Academy, I learned to read statistics and turn raw numbers into visualisations that actually meant something. That's when it hit me: the same curiosity that pulls people toward betting is exactly what powers a career in sports analytics, if you point it the right way. SportMetr exists to make that shift, turning a fascination with the numbers into skills the industry actually needs.
+                  When sports betting exploded across Rio de Janeiro in 2024, it reached my school, with classmates spending more time on betting apps than on their classes. The following year, at Wharton's Moneyball Academy, I learned to read statistics and turn raw numbers into visualisations that actually meant something. That's when it hit me: the same curiosity that pulls people toward betting is exactly what powers a career in sports analytics, if you point it the right way. SportMetr exists to make that shift, turning a fascination with the numbers into skills the industry actually needs.
                 </p>
                 <p className="text-sm font-bold text-[#ff751f] uppercase tracking-widest">
                   Guilherme, Co-Founder
