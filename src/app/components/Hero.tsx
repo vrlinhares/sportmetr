@@ -46,7 +46,7 @@ export function Hero() {
   const smoothY = useSpring(mouseY, { stiffness: 60, damping: 20 });
 
   const [headlineIdx, setHeadlineIdx] = useState(0);
-  const headlines = ['Game Behind the Game', 'Data Behind the Win', 'Code Behind the Court', 'Numbers Behind the Goals'];
+  const headlines = ['Game Behind the Game', 'Data Behind the Win', 'Numbers Behind the Goals'];
 
   useEffect(() => {
     const id = setInterval(() => setHeadlineIdx((i) => (i + 1) % headlines.length), 3200);
