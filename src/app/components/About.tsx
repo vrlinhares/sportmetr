@@ -215,14 +215,35 @@ export function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.8 }}
-            className="max-w-3xl mx-auto text-left"
+            className="max-w-5xl mx-auto text-left"
           >
             <div className="inline-flex items-center gap-3 px-4 py-2 bg-[#003a89]/10 text-[#003a89] rounded-full text-xs font-bold tracking-widest mb-6 uppercase">
               How it started
             </div>
-            <p className="text-lg text-gray-700 leading-relaxed">
+            <p className="text-lg text-gray-700 leading-relaxed mb-12 max-w-3xl">
               SportMetr started in 2024 as a single sports business and analytics club at our school. Watching classmates spend class time on betting apps, we wanted to share our passion for the statistical side of sports by converting their energy into productive interests and market-demanded skills. Starting in 2026, we are expanding into a network so that more students are able to share these opportunities with their classmates and beyond.
             </p>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="p-8 rounded-3xl bg-white border-2 border-[#003a89]/10">
+                <div className="w-12 h-1.5 rounded-full bg-[#003a89] mb-6" />
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  When tendinitis in both knees ended my time playing competitive soccer, I still had a classroom to walk into the next morning and a future waiting beyond the field. Not everyone does. So many people pour everything into this game, yet only a fraction will ever go pro. SportMetr is here to show them that loving sport doesn't have to end at the sideline. The business, data, and technology behind the game are real careers too, open to anyone who loves it.
+                </p>
+                <p className="text-sm font-bold text-[#003a89] uppercase tracking-widest">
+                  Vitor, Co-Founder
+                </p>
+              </div>
+              <div className="p-8 rounded-3xl bg-white border-2 border-[#003a89]/10">
+                <div className="w-12 h-1.5 rounded-full bg-[#ff751f] mb-6" />
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  When sports betting exploded across Rio de Janeiro in 2024, it reached my school, with classmates spending more time on betting apps than on the game itself. The following year, at Wharton's Moneyball Academy, I learned to read statistics and turn raw numbers into visualisations that actually meant something. That's when it hit me: the same curiosity that pulls people toward betting is exactly what powers a career in sports analytics, if you point it the right way. SportMetr exists to make that shift, turning a fascination with the numbers into skills the industry actually needs.
+                </p>
+                <p className="text-sm font-bold text-[#ff751f] uppercase tracking-widest">
+                  Guilherme, Co-Founder
+                </p>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>
