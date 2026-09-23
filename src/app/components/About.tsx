@@ -136,7 +136,7 @@ export function About() {
             </span>
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            SportMetr is a community making sports analytics education more accessible, helping students understand the industry and see a place for themselves in it.
+            SportMetr turns a love of sport into skills that last, whether you're a fan drawn to the numbers behind the game or an athlete looking for a new way to stay in the one you love.
           </p>
         </motion.div>
 
@@ -145,6 +145,44 @@ export function About() {
             <FeatureCard key={f.title} feature={f} index={i} />
           ))}
         </div>
+
+        {/* Who it's for */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7 }}
+          className="max-w-5xl mx-auto mb-24"
+        >
+          <div className="text-center mb-12">
+            <h3 className="text-3xl md:text-5xl font-extrabold text-[#0a0a0a] mb-3" style={{ fontWeight: 800 }}>
+              Two ways in, one love of the game
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              SportMetr is built for two kinds of people, united by the same thing.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="p-8 rounded-3xl bg-white border-2 border-[#003a89]/10">
+              <div className="w-12 h-1.5 rounded-full bg-[#ff751f] mb-6" />
+              <h4 className="text-2xl font-extrabold text-[#0a0a0a] mb-3" style={{ fontWeight: 800 }}>
+                For the fan who loves the numbers
+              </h4>
+              <p className="text-gray-600 leading-relaxed">
+                You follow the stats as closely as the score. SportMetr turns that instinct into real skills in analytics, strategy, and the business of sport, and points it somewhere productive.
+              </p>
+            </div>
+            <div className="p-8 rounded-3xl bg-white border-2 border-[#003a89]/10">
+              <div className="w-12 h-1.5 rounded-full bg-[#003a89] mb-6" />
+              <h4 className="text-2xl font-extrabold text-[#0a0a0a] mb-3" style={{ fontWeight: 800 }}>
+                For the athlete writing their next chapter
+              </h4>
+              <p className="text-gray-600 leading-relaxed">
+                An injury, a setback, or the odds can end a playing career, but not your place in the game. Learn how the industry behind the sport works, and build a future in it.
+              </p>
+            </div>
+          </div>
+        </motion.div>
 
         {/* Founders */}
         <div className="text-center">
