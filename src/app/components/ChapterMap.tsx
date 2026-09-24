@@ -347,7 +347,7 @@ export function ChapterMap() {
       </div>
 
       {/* Chapter list */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr gap-4 mt-6">
         {[...chapters]
           .sort((a, b) => (a.status === 'active' ? 0 : 1) - (b.status === 'active' ? 0 : 1))
           .map((c) => (
