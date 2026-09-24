@@ -159,7 +159,7 @@ export function About() {
               Two ways in, one love of the game
             </h3>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              SportMetr is built for two kinds of people, united by the same thing.
+              Two different starting points, one future in sport.
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
