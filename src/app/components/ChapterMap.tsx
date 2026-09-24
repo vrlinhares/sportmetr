@@ -75,6 +75,11 @@ const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 const DEFAULT_ZOOM = 1;
 const DEFAULT_CENTER: [number, number] = [-60, -10];
 
+// ComposableMap's default viewBox dimensions; used to bound panning so the
+// map can't be dragged past its own edges.
+const MAP_WIDTH = 800;
+const MAP_HEIGHT = 600;
+
 function ChapterPin({
   chapter,
   selected,
@@ -227,8 +232,9 @@ export function ChapterMap() {
             <ZoomableGroup
               zoom={zoom}
               center={center}
-              minZoom={0.6}
+              minZoom={DEFAULT_ZOOM}
               maxZoom={64}
+              translateExtent={[[0, 0], [MAP_WIDTH, MAP_HEIGHT]]}
               onMoveEnd={({ coordinates, zoom: z }: { coordinates: [number, number]; zoom: number }) => {
                 setCenter(coordinates);
                 setZoom(z);
@@ -336,7 +342,7 @@ export function ChapterMap() {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setZoom((z) => Math.max(z / 1.5, 0.6));
+              setZoom((z) => Math.max(z / 1.5, DEFAULT_ZOOM));
             }}
             className="w-10 h-10 rounded-xl bg-[#c1ff72] hover:bg-white text-[#003a89] flex items-center justify-center font-bold shadow-lg transition-colors"
             aria-label="Zoom out"
