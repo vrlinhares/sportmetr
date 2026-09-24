@@ -155,12 +155,9 @@ export function About() {
           className="max-w-5xl mx-auto mb-24"
         >
           <div className="text-center mb-12">
-            <h3 className="text-3xl md:text-5xl font-extrabold text-[#0a0a0a] mb-3" style={{ fontWeight: 800 }}>
+            <h3 className="text-3xl md:text-5xl font-extrabold text-[#0a0a0a]" style={{ fontWeight: 800 }}>
               Two ways in, one love of the game
             </h3>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Two different starting points, one future in sport.
-            </p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="p-8 rounded-3xl bg-white border-2 border-[#003a89]/10">
