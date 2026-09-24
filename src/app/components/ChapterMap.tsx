@@ -359,10 +359,10 @@ export function ChapterMap() {
           .map((c) => (
             <div
               key={c.id}
-              className="flex items-start gap-3 p-4 rounded-2xl border-2 border-[#003a89]/10 bg-white"
+              className="flex items-center gap-3 p-4 rounded-2xl border-2 border-[#003a89]/10 bg-white"
             >
               <span
-                className="mt-1.5 w-3 h-3 rounded-full flex-shrink-0"
+                className="w-3 h-3 rounded-full flex-shrink-0"
                 style={{ backgroundColor: STATUS_COLORS[c.status] }}
               />
               <div>
