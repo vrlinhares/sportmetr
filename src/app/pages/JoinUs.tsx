@@ -61,7 +61,7 @@ export function JoinUs() {
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold text-[#0a0a0a] mb-6 leading-[1.05]" style={{ fontWeight: 800 }}>
               Three ways to{' '}
-              <span className="bg-gradient-to-r from-[#ff751f] to-[#3533cd] bg-clip-text text-transparent">join us</span>
+              <span className="whitespace-nowrap bg-gradient-to-r from-[#ff751f] to-[#3533cd] bg-clip-text text-transparent">join us</span>
             </h1>
             <p className="text-lg text-gray-600">
               Whichever you pick, you become part of a movement of students building the future of sports.
