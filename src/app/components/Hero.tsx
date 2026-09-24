@@ -113,8 +113,8 @@ export function Hero() {
             <br />
             <span className="relative grid">
               {/* Invisible copies of every phrase reserve height for the tallest
-                  one, so the layout never shifts as the text rotates (this was
-                  causing a twitch on mobile where longer phrases wrap). */}
+                  one at the current width, so the layout never shifts as the text
+                  rotates. Applies at all breakpoints (desktop and mobile). */}
               {headlines.map((h) => (
                 <span key={h} aria-hidden className="col-start-1 row-start-1 invisible">
                   {h}
