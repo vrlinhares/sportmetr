@@ -202,8 +202,8 @@ export function About() {
             The team behind the movement
           </motion.p>
           <div className="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-20 mb-20">
-            <Founder name="Vitor Linhares" role="Co-Founder · Chief Growth Officer" image={vitorImage} />
-            <Founder name="Guilherme Cavalcanti" role="Co-Founder · Chief Content Officer" image={guilhermeImage} scale={1.75} />
+            <Founder name="Vitor Linhares" role="Co-Founder · Head of Growth" image={vitorImage} />
+            <Founder name="Guilherme Cavalcanti" role="Co-Founder · Head of Content" image={guilhermeImage} scale={1.75} />
           </div>
 
           {/* Origin Story */}
