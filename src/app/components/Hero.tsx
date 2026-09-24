@@ -111,17 +111,26 @@ export function Hero() {
           >
             Learn the
             <br />
-            <span className="relative inline-block overflow-hidden align-bottom" style={{ minHeight: '1.1em' }}>
-              <motion.span
-                key={headlineIdx}
-                initial={{ y: '100%', opacity: 0 }}
-                animate={{ y: '0%', opacity: 1 }}
-                exit={{ y: '-100%', opacity: 0 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className="inline-block bg-gradient-to-r from-[#003a89] via-[#3533cd] to-[#ff751f] bg-clip-text text-transparent"
-              >
-                {headlines[headlineIdx]}
-              </motion.span>
+            <span className="relative grid">
+              {/* Invisible copies of every phrase reserve height for the tallest
+                  one, so the layout never shifts as the text rotates (this was
+                  causing a twitch on mobile where longer phrases wrap). */}
+              {headlines.map((h) => (
+                <span key={h} aria-hidden className="col-start-1 row-start-1 invisible">
+                  {h}
+                </span>
+              ))}
+              <span className="col-start-1 row-start-1 overflow-hidden">
+                <motion.span
+                  key={headlineIdx}
+                  initial={{ y: '100%', opacity: 0 }}
+                  animate={{ y: '0%', opacity: 1 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  className="inline-block bg-gradient-to-r from-[#003a89] via-[#3533cd] to-[#ff751f] bg-clip-text text-transparent"
+                >
+                  {headlines[headlineIdx]}
+                </motion.span>
+              </span>
             </span>
           </motion.h1>
 
