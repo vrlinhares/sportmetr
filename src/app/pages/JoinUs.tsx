@@ -34,13 +34,13 @@ const paths = [
 
 export function JoinUs() {
   return (
-    <main className="pt-28 min-h-screen bg-[#f6f5ef]">
+    <main className="min-h-screen bg-[#f6f5ef]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-[#003a89] hover:text-[#002a69] transition-colors font-bold uppercase tracking-wider text-sm"
+          className="inline-flex items-center gap-2 text-[#003a89] hover:text-[#002a69] transition-colors font-medium"
         >
-          <ArrowLeft size={18} />
+          <ArrowLeft size={20} />
           Back to Home
         </Link>
       </div>
