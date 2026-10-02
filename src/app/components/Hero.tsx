@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { motion, useTransform, useMotionValue, useSpring, MotionValue } from 'motion/react';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useScroll, useTransform, useMotionValue, useSpring, MotionValue } from 'motion/react';
 import { ArrowRight, Zap } from 'lucide-react';
 import { Link } from 'react-router';
 
@@ -36,11 +36,22 @@ function ParallaxOrb({ mx, my, dx, dy, className }: { mx: MotionValue<number>; m
 
 export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 600], [0, 200]);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const smoothX = useSpring(mouseX, { stiffness: 60, damping: 20 });
   const smoothY = useSpring(mouseY, { stiffness: 60, damping: 20 });
+
+  const [headlineIdx, setHeadlineIdx] = useState(0);
+  const headlines = ['Game Behind the Game', 'Data Behind the Win', 'Numbers Behind the Goals'];
+
+  useEffect(() => {
+    const id = setInterval(() => setHeadlineIdx((i) => (i + 1) % headlines.length), 3200);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
@@ -57,7 +68,7 @@ export function Hero() {
     <section
       ref={containerRef}
       id="home"
-      className="relative overflow-hidden bg-[#f6f5ef] sm-grid-bg"
+      className="relative min-h-screen flex items-center overflow-hidden bg-[#f6f5ef] sm-grid-bg"
     >
       {/* Floating sport-business words reacting to cursor */}
       {floatingWords.map((w) => (
@@ -70,6 +81,7 @@ export function Hero() {
       <ParallaxOrb mx={smoothX} my={smoothY} dx={20} dy={-20} className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full bg-[#c1ff72]/30 blur-3xl" />
 
       <motion.div
+        style={{ y: heroY, opacity: heroOpacity }}
         className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full"
       >
         <div className="max-w-5xl mx-auto text-center">
@@ -88,6 +100,39 @@ export function Hero() {
             </motion.span>
             STUDENT-LED · GLOBAL NETWORK
           </motion.div>
+
+          {/* Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="text-[2.75rem] sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-[#0a0a0a] leading-[0.95] mb-8 tracking-tight"
+            style={{ fontWeight: 800 }}
+          >
+            Learn the
+            <br />
+            <span className="relative grid">
+              {/* Invisible copies of every phrase reserve height for the tallest
+                  one at the current width, so the layout never shifts as the text
+                  rotates. Applies at all breakpoints (desktop and mobile). */}
+              {headlines.map((h) => (
+                <span key={h} aria-hidden className="col-start-1 row-start-1 invisible">
+                  {h}
+                </span>
+              ))}
+              <span className="col-start-1 row-start-1 overflow-hidden">
+                <motion.span
+                  key={headlineIdx}
+                  initial={{ y: '100%', opacity: 0 }}
+                  animate={{ y: '0%', opacity: 1 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  className="inline-block bg-gradient-to-r from-[#003a89] via-[#3533cd] to-[#ff751f] bg-clip-text text-transparent"
+                >
+                  {headlines[headlineIdx]}
+                </motion.span>
+              </span>
+            </span>
+          </motion.h1>
 
           {/* Description */}
           <motion.p
@@ -145,6 +190,15 @@ export function Hero() {
         </div>
       </motion.div>
 
+      {/* Scroll indicator */}
+      <motion.div
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 1.8, repeat: Infinity }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[#003a89] text-xs uppercase tracking-widest font-bold flex flex-col items-center gap-2"
+      >
+        Scroll
+        <div className="w-px h-12 bg-gradient-to-b from-[#003a89] to-transparent" />
+      </motion.div>
     </section>
   );
 }
