@@ -76,10 +76,14 @@ export function HeroReveal() {
       return;
     }
 
+    const sticky = root.querySelector('.hr-sticky') as HTMLElement;
+    const navH = 112; // fixed nav height (h-28); the reveal pins just below it
     let ticking = false;
     const update = () => {
-      const total = scrolly.offsetHeight - window.innerHeight;
-      const p = total > 0 ? clamp(-scrolly.getBoundingClientRect().top / total, 0, 1) : 0;
+      const stickyH = sticky ? sticky.clientHeight : window.innerHeight;
+      const total = scrolly.offsetHeight - stickyH;
+      const rectTop = scrolly.getBoundingClientRect().top;
+      const p = total > 0 ? clamp((navH - rectTop) / total, 0, 1) : 0;
       render(p);
       ticking = false;
     };
@@ -103,7 +107,7 @@ export function HeroReveal() {
       <style>{`
         .hr-root{--field:#06398a;--deep:#041f4a;--ink:#f6f5ef;--muted:rgba(246,245,239,.62);--lime:#c1ff72;--orange:#ff751f;--violet:#8f8dff;--cream:#f6f5ef}
         .hr-scrolly{position:relative;height:240vh}
-        .hr-sticky{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--field);box-shadow:inset 0 26px 42px -26px rgba(0,0,0,.6)}
+        .hr-sticky{position:sticky;top:7rem;height:calc(100svh - 7rem);overflow:hidden;background:var(--field)}
         .hr-deep{position:absolute;inset:0;background:var(--deep);opacity:0}
         .hr-scene{position:absolute;inset:0;width:100%;height:100%}
         .hr-pitch{opacity:.5}
