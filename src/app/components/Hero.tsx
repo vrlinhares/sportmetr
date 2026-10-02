@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 type Viz = {
   id: string;
-  type: 'scatter' | 'line' | 'bars' | 'radar' | 'network' | 'donut';
+  type: 'formation' | 'shotmap' | 'radar' | 'heatmap' | 'network' | 'freekick';
   color: string;
   x: string;
   y: string;
@@ -15,52 +15,80 @@ type Viz = {
 };
 
 const vizItems: Viz[] = [
-  { id: 'scatter', type: 'scatter', color: '#ff751f', x: '7%', y: '17%', w: 150, delay: 0, depth: 30 },
-  { id: 'line', type: 'line', color: '#003a89', x: '80%', y: '20%', w: 170, delay: 0.3, depth: 40 },
-  { id: 'bars', type: 'bars', color: '#c1ff72', x: '11%', y: '66%', w: 150, delay: 0.6, depth: 50 },
-  { id: 'radar', type: 'radar', color: '#3533cd', x: '79%', y: '64%', w: 140, delay: 0.9, depth: 35 },
+  { id: 'formation', type: 'formation', color: '#003a89', x: '7%', y: '16%', w: 165, delay: 0, depth: 30 },
+  { id: 'shotmap', type: 'shotmap', color: '#ff751f', x: '80%', y: '19%', w: 160, delay: 0.3, depth: 40 },
+  { id: 'radar', type: 'radar', color: '#3533cd', x: '11%', y: '66%', w: 140, delay: 0.6, depth: 50 },
+  { id: 'heatmap', type: 'heatmap', color: '#ff751f', x: '79%', y: '63%', w: 165, delay: 0.9, depth: 35 },
   { id: 'network', type: 'network', color: '#003a89', x: '5%', y: '42%', w: 150, delay: 1.2, depth: 25 },
-  { id: 'donut', type: 'donut', color: '#ff751f', x: '86%', y: '46%', w: 120, delay: 1.5, depth: 45 },
+  { id: 'freekick', type: 'freekick', color: '#3533cd', x: '86%', y: '45%', w: 135, delay: 1.5, depth: 45 },
 ];
 
 function VizShape({ type, color }: { type: Viz['type']; color: string }) {
-  const stroke = { fill: 'none', stroke: color, strokeWidth: 3, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
   const svgProps = { width: '100%', style: { display: 'block' as const } };
   switch (type) {
-    case 'line':
-      return (
-        <svg viewBox="0 0 120 80" {...svgProps}>
-          <line x1="8" y1="70" x2="114" y2="70" stroke={color} strokeWidth="1.5" opacity="0.5" />
-          <line x1="8" y1="70" x2="8" y2="8" stroke={color} strokeWidth="1.5" opacity="0.5" />
-          <polyline points="8,60 32,46 56,52 80,28 104,34 114,14" {...stroke} />
-        </svg>
-      );
-    case 'bars':
-      return (
-        <svg viewBox="0 0 120 80" {...svgProps}>
-          <line x1="6" y1="72" x2="116" y2="72" stroke={color} strokeWidth="1.5" opacity="0.5" />
-          {[[14, 34], [40, 52], [66, 24], [92, 44]].map(([x, h], i) => (
-            <rect key={i} x={x} y={70 - h} width="16" height={h} rx="2" fill={color} />
-          ))}
-        </svg>
-      );
-    case 'scatter':
+    case 'formation':
+      // tactics board: pitch with a formation of players
       return (
         <svg viewBox="0 0 120 90" {...svgProps}>
-          <rect x="4" y="4" width="112" height="82" rx="5" fill="none" stroke={color} strokeWidth="1.5" opacity="0.5" />
-          {[[30, 30], [54, 20], [70, 46], [44, 58], [86, 34], [96, 64], [26, 66]].map(([cx, cy], i) => (
-            <circle key={i} cx={cx} cy={cy} r="5" fill={color} />
+          <g stroke={color} strokeWidth="1.5" opacity="0.5" fill="none">
+            <rect x="4" y="4" width="112" height="82" rx="3" />
+            <line x1="60" y1="4" x2="60" y2="86" />
+            <circle cx="60" cy="45" r="12" />
+            <rect x="4" y="28" width="14" height="34" />
+            <rect x="102" y="28" width="14" height="34" />
+          </g>
+          {[[14, 45], [32, 20], [32, 45], [32, 70], [58, 30], [58, 60], [86, 45]].map(([cx, cy], i) => (
+            <circle key={i} cx={cx} cy={cy} r="4" fill={color} />
           ))}
+        </svg>
+      );
+    case 'shotmap':
+      // shots taken toward the goal, with one trajectory
+      return (
+        <svg viewBox="0 0 120 90" {...svgProps}>
+          <path d="M24,34 L24,10 L96,10 L96,34" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" />
+          <g stroke={color} strokeWidth="1" opacity="0.35">
+            <line x1="42" y1="10" x2="42" y2="34" />
+            <line x1="60" y1="10" x2="60" y2="34" />
+            <line x1="78" y1="10" x2="78" y2="34" />
+            <line x1="24" y1="22" x2="96" y2="22" />
+          </g>
+          {[[46, 60], [64, 74], [82, 56], [56, 50], [92, 68], [34, 70]].map(([cx, cy], i) => (
+            <circle key={i} cx={cx} cy={cy} r="4.5" fill={color} />
+          ))}
+          <path d="M64,74 C 78,56 88,34 92,14" fill="none" stroke={color} strokeWidth="2" strokeDasharray="3 6" strokeLinecap="round" opacity="0.85" />
         </svg>
       );
     case 'radar':
+      // player attribute radar
       return (
         <svg viewBox="0 0 100 100" {...svgProps}>
           <polygon points="50,8 90,38 74,86 26,86 10,38" fill="none" stroke={color} strokeWidth="1.5" opacity="0.5" />
           <polygon points="50,24 74,42 64,72 34,66 26,44" fill={color} fillOpacity="0.25" stroke={color} strokeWidth="2.5" />
         </svg>
       );
+    case 'heatmap':
+      // positional heatmap over a pitch
+      return (
+        <svg viewBox="0 0 120 80" {...svgProps}>
+          <defs>
+            <radialGradient id="vizHeat">
+              <stop offset="0%" stopColor={color} stopOpacity="0.9" />
+              <stop offset="100%" stopColor={color} stopOpacity="0" />
+            </radialGradient>
+          </defs>
+          <g stroke={color} strokeWidth="1.5" opacity="0.5" fill="none">
+            <rect x="4" y="4" width="112" height="72" rx="3" />
+            <line x1="60" y1="4" x2="60" y2="76" />
+            <circle cx="60" cy="40" r="11" />
+          </g>
+          <circle cx="42" cy="46" r="26" fill="url(#vizHeat)" />
+          <circle cx="76" cy="30" r="30" fill="url(#vizHeat)" />
+          <circle cx="92" cy="56" r="18" fill="url(#vizHeat)" />
+        </svg>
+      );
     case 'network':
+      // passing network
       return (
         <svg viewBox="0 0 120 100" {...svgProps}>
           <g stroke={color} strokeWidth="2" opacity="0.55">
@@ -75,11 +103,14 @@ function VizShape({ type, color }: { type: Viz['type']; color: string }) {
           ))}
         </svg>
       );
-    case 'donut':
+    case 'freekick':
+      // bending ball trajectory into the top corner
       return (
-        <svg viewBox="0 0 100 100" {...svgProps}>
-          <circle cx="50" cy="50" r="34" fill="none" stroke={color} strokeWidth="10" opacity="0.25" />
-          <circle cx="50" cy="50" r="34" fill="none" stroke={color} strokeWidth="10" strokeLinecap="round" strokeDasharray="150 64" transform="rotate(-90 50 50)" />
+        <svg viewBox="0 0 120 80" {...svgProps}>
+          <path d="M96,8 L112,8 L112,26" fill="none" stroke={color} strokeWidth="2" opacity="0.6" />
+          <path d="M20,64 C 44,66 84,44 104,16" fill="none" stroke={color} strokeWidth="2.5" strokeDasharray="3 6" strokeLinecap="round" />
+          <circle cx="20" cy="64" r="8" fill="none" stroke={color} strokeWidth="2.5" />
+          <path d="M20,59 L24,62 L22,67 L18,67 L16,62 Z" fill={color} />
         </svg>
       );
   }
