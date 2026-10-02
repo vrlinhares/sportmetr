@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 type Viz = {
   id: string;
-  type: 'formation' | 'shotmap' | 'radar' | 'heatmap' | 'network' | 'freekick';
+  type: 'shotchart' | 'winprob' | 'radar' | 'table' | 'scatter' | 'strikezone';
   color: string;
   x: string;
   y: string;
@@ -15,102 +15,112 @@ type Viz = {
 };
 
 const vizItems: Viz[] = [
-  { id: 'formation', type: 'formation', color: '#003a89', x: '7%', y: '16%', w: 165, delay: 0, depth: 30 },
-  { id: 'shotmap', type: 'shotmap', color: '#ff751f', x: '80%', y: '19%', w: 160, delay: 0.3, depth: 40 },
-  { id: 'radar', type: 'radar', color: '#3533cd', x: '11%', y: '66%', w: 140, delay: 0.6, depth: 50 },
-  { id: 'heatmap', type: 'heatmap', color: '#ff751f', x: '79%', y: '63%', w: 165, delay: 0.9, depth: 35 },
-  { id: 'network', type: 'network', color: '#003a89', x: '5%', y: '42%', w: 150, delay: 1.2, depth: 25 },
-  { id: 'freekick', type: 'freekick', color: '#3533cd', x: '86%', y: '45%', w: 135, delay: 1.5, depth: 45 },
+  { id: 'shotchart', type: 'shotchart', color: '#ff751f', x: '7%', y: '15%', w: 172, delay: 0, depth: 30 },
+  { id: 'winprob', type: 'winprob', color: '#003a89', x: '79%', y: '18%', w: 178, delay: 0.3, depth: 40 },
+  { id: 'radar', type: 'radar', color: '#3533cd', x: '11%', y: '66%', w: 142, delay: 0.6, depth: 50 },
+  { id: 'table', type: 'table', color: '#003a89', x: '80%', y: '62%', w: 160, delay: 0.9, depth: 35 },
+  { id: 'scatter', type: 'scatter', color: '#ff751f', x: '4%', y: '42%', w: 158, delay: 1.2, depth: 25 },
+  { id: 'strikezone', type: 'strikezone', color: '#3533cd', x: '87%', y: '44%', w: 118, delay: 1.5, depth: 45 },
 ];
 
 function VizShape({ type, color }: { type: Viz['type']; color: string }) {
   const svgProps = { width: '100%', style: { display: 'block' as const } };
   switch (type) {
-    case 'formation':
-      // tactics board: pitch with a formation of players
+    case 'shotchart':
+      // basketball shot chart: half-court with shot locations
       return (
-        <svg viewBox="0 0 120 90" {...svgProps}>
+        <svg viewBox="0 0 120 100" {...svgProps}>
           <g stroke={color} strokeWidth="1.5" opacity="0.5" fill="none">
-            <rect x="4" y="4" width="112" height="82" rx="3" />
-            <line x1="60" y1="4" x2="60" y2="86" />
-            <circle cx="60" cy="45" r="12" />
-            <rect x="4" y="28" width="14" height="34" />
-            <rect x="102" y="28" width="14" height="34" />
+            <rect x="6" y="6" width="108" height="88" rx="2" />
+            <rect x="44" y="6" width="32" height="40" />
+            <circle cx="60" cy="46" r="11" />
+            <path d="M16,6 L16,28 A 44 44 0 0 0 104 28 L104,6" />
+            <circle cx="60" cy="14" r="3.5" />
           </g>
-          {[[14, 45], [32, 20], [32, 45], [32, 70], [58, 30], [58, 60], [86, 45]].map(([cx, cy], i) => (
-            <circle key={i} cx={cx} cy={cy} r="4" fill={color} />
+          {[[40, 34], [60, 28], [78, 38], [50, 52], [72, 58], [30, 48], [88, 50], [60, 72]].map(([cx, cy], i) => (
+            <circle key={i} cx={cx} cy={cy} r="3.5" fill={color} />
           ))}
         </svg>
       );
-    case 'shotmap':
-      // shots taken toward the goal, with one trajectory
+    case 'winprob':
+      // win-probability curve over a gridded chart
       return (
-        <svg viewBox="0 0 120 90" {...svgProps}>
-          <path d="M24,34 L24,10 L96,10 L96,34" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" />
-          <g stroke={color} strokeWidth="1" opacity="0.35">
-            <line x1="42" y1="10" x2="42" y2="34" />
-            <line x1="60" y1="10" x2="60" y2="34" />
-            <line x1="78" y1="10" x2="78" y2="34" />
-            <line x1="24" y1="22" x2="96" y2="22" />
+        <svg viewBox="0 0 130 80" {...svgProps}>
+          <g stroke={color} strokeWidth="1" opacity="0.3">
+            <line x1="12" y1="8" x2="12" y2="72" />
+            <line x1="12" y1="72" x2="126" y2="72" />
+            <line x1="12" y1="20" x2="126" y2="20" />
+            <line x1="12" y1="56" x2="126" y2="56" />
           </g>
-          {[[46, 60], [64, 74], [82, 56], [56, 50], [92, 68], [34, 70]].map(([cx, cy], i) => (
-            <circle key={i} cx={cx} cy={cy} r="4.5" fill={color} />
+          <line x1="12" y1="40" x2="126" y2="40" stroke={color} strokeWidth="1.5" strokeDasharray="2 4" opacity="0.55" />
+          <polyline points="12,52 32,44 50,50 68,28 86,34 104,16 126,22" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          {[[12, 52], [32, 44], [50, 50], [68, 28], [86, 34], [104, 16], [126, 22]].map(([cx, cy], i) => (
+            <circle key={i} cx={cx} cy={cy} r="2.6" fill={color} />
           ))}
-          <path d="M64,74 C 78,56 88,34 92,14" fill="none" stroke={color} strokeWidth="2" strokeDasharray="3 6" strokeLinecap="round" opacity="0.85" />
         </svg>
       );
     case 'radar':
-      // player attribute radar
+      // player attribute radar with concentric rings and spokes
       return (
         <svg viewBox="0 0 100 100" {...svgProps}>
-          <polygon points="50,8 90,38 74,86 26,86 10,38" fill="none" stroke={color} strokeWidth="1.5" opacity="0.5" />
-          <polygon points="50,24 74,42 64,72 34,66 26,44" fill={color} fillOpacity="0.25" stroke={color} strokeWidth="2.5" />
+          <g stroke={color} strokeWidth="1" opacity="0.3" fill="none">
+            <polygon points="50,14 84,39 71,80 29,80 16,39" />
+            <polygon points="50,32 67,45 60,69 40,69 33,45" />
+            <line x1="50" y1="50" x2="50" y2="14" />
+            <line x1="50" y1="50" x2="84" y2="39" />
+            <line x1="50" y1="50" x2="71" y2="80" />
+            <line x1="50" y1="50" x2="29" y2="80" />
+            <line x1="50" y1="50" x2="16" y2="39" />
+          </g>
+          <polygon points="50,22 76,41 63,74 37,67 28,46" fill={color} fillOpacity="0.22" stroke={color} strokeWidth="2" />
         </svg>
       );
-    case 'heatmap':
-      // positional heatmap over a pitch
+    case 'table':
+      // league standings: ranked rows with points bars
       return (
-        <svg viewBox="0 0 120 80" {...svgProps}>
-          <defs>
-            <radialGradient id="vizHeat">
-              <stop offset="0%" stopColor={color} stopOpacity="0.9" />
-              <stop offset="100%" stopColor={color} stopOpacity="0" />
-            </radialGradient>
-          </defs>
-          <g stroke={color} strokeWidth="1.5" opacity="0.5" fill="none">
-            <rect x="4" y="4" width="112" height="72" rx="3" />
-            <line x1="60" y1="4" x2="60" y2="76" />
-            <circle cx="60" cy="40" r="11" />
-          </g>
-          <circle cx="42" cy="46" r="26" fill="url(#vizHeat)" />
-          <circle cx="76" cy="30" r="30" fill="url(#vizHeat)" />
-          <circle cx="92" cy="56" r="18" fill="url(#vizHeat)" />
+        <svg viewBox="0 0 120 90" {...svgProps}>
+          <line x1="18" y1="6" x2="18" y2="84" stroke={color} strokeWidth="1" opacity="0.3" />
+          {[0, 1, 2, 3, 4].map((i) => {
+            const y = 14 + i * 16;
+            const w = 86 - i * 15;
+            return (
+              <g key={i}>
+                <circle cx="10" cy={y} r="3.2" fill={color} />
+                <rect x="24" y={y - 4} width={w} height="8" rx="2" fill={color} fillOpacity="0.5" />
+              </g>
+            );
+          })}
         </svg>
       );
-    case 'network':
-      // passing network
+    case 'scatter':
+      // correlation scatter with a trend line
       return (
-        <svg viewBox="0 0 120 100" {...svgProps}>
-          <g stroke={color} strokeWidth="2" opacity="0.55">
-            <line x1="18" y1="78" x2="46" y2="40" />
-            <line x1="46" y1="40" x2="78" y2="60" />
-            <line x1="46" y1="40" x2="86" y2="20" />
-            <line x1="78" y1="60" x2="104" y2="80" />
-            <line x1="18" y1="78" x2="78" y2="60" />
+        <svg viewBox="0 0 120 90" {...svgProps}>
+          <g stroke={color} strokeWidth="1" opacity="0.3">
+            <line x1="12" y1="8" x2="12" y2="80" />
+            <line x1="12" y1="80" x2="114" y2="80" />
           </g>
-          {[[18, 78], [46, 40], [78, 60], [86, 20], [104, 80]].map(([cx, cy], i) => (
-            <circle key={i} cx={cx} cy={cy} r="6" fill={color} />
+          <line x1="16" y1="72" x2="110" y2="22" stroke={color} strokeWidth="1.5" strokeDasharray="3 5" opacity="0.7" />
+          {[[26, 66], [38, 58], [46, 64], [54, 48], [66, 52], [74, 40], [84, 44], [94, 30], [104, 34], [58, 60]].map(([cx, cy], i) => (
+            <circle key={i} cx={cx} cy={cy} r="3" fill={color} />
           ))}
         </svg>
       );
-    case 'freekick':
-      // bending ball trajectory into the top corner
+    case 'strikezone':
+      // baseball pitch-location zone with home plate
       return (
-        <svg viewBox="0 0 120 80" {...svgProps}>
-          <path d="M96,8 L112,8 L112,26" fill="none" stroke={color} strokeWidth="2" opacity="0.6" />
-          <path d="M20,64 C 44,66 84,44 104,16" fill="none" stroke={color} strokeWidth="2.5" strokeDasharray="3 6" strokeLinecap="round" />
-          <circle cx="20" cy="64" r="8" fill="none" stroke={color} strokeWidth="2.5" />
-          <path d="M20,59 L24,62 L22,67 L18,67 L16,62 Z" fill={color} />
+        <svg viewBox="0 0 90 100" {...svgProps}>
+          <g stroke={color} strokeWidth="1.5" opacity="0.5" fill="none">
+            <rect x="22" y="16" width="46" height="54" />
+            <line x1="37.3" y1="16" x2="37.3" y2="70" />
+            <line x1="52.6" y1="16" x2="52.6" y2="70" />
+            <line x1="22" y1="34" x2="68" y2="34" />
+            <line x1="22" y1="52" x2="68" y2="52" />
+            <path d="M30,80 L60,80 L60,88 L45,95 L30,88 Z" />
+          </g>
+          {[[33, 28], [58, 24], [45, 42], [62, 50], [30, 58], [50, 64], [44, 30]].map(([cx, cy], i) => (
+            <circle key={i} cx={cx} cy={cy} r="3.2" fill={color} />
+          ))}
         </svg>
       );
   }
