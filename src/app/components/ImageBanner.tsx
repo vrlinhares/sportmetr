@@ -36,7 +36,7 @@ export function ImageBanner() {
               <motion.img
                 src={bannerImage}
                 alt="SportMetr Banner"
-                className="w-full h-auto"
+                className="w-full max-h-[460px] object-cover"
                 whileHover={{ scale: 1.04 }}
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               />

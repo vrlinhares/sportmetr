@@ -67,7 +67,7 @@ export function HeroReveal() {
       el.l2.style.opacity = String(rev);
       el.l2.style.transform = `translateY(${(1 - rev) * 0.35}em)`;
       el.hint.style.opacity = String(1 - ease(seg(p, 0.02, 0.12)));
-      el.exit.style.opacity = String(ease(seg(p, 0.88, 1)));
+      el.exit.style.opacity = String(ease(seg(p, 0.93, 1)));
     };
 
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -102,8 +102,8 @@ export function HeroReveal() {
     <div ref={rootRef} className="hr-root">
       <style>{`
         .hr-root{--field:#06398a;--deep:#041f4a;--ink:#f6f5ef;--muted:rgba(246,245,239,.62);--lime:#c1ff72;--orange:#ff751f;--violet:#8f8dff;--cream:#f6f5ef}
-        .hr-scrolly{position:relative;height:340vh}
-        .hr-sticky{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--field)}
+        .hr-scrolly{position:relative;height:240vh}
+        .hr-sticky{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--field);box-shadow:inset 0 26px 42px -26px rgba(0,0,0,.6)}
         .hr-deep{position:absolute;inset:0;background:var(--deep);opacity:0}
         .hr-scene{position:absolute;inset:0;width:100%;height:100%}
         .hr-pitch{opacity:.5}

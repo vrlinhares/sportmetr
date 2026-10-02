@@ -57,7 +57,7 @@ export function Hero() {
     <section
       ref={containerRef}
       id="home"
-      className="relative min-h-screen flex items-center overflow-hidden bg-[#f6f5ef] sm-grid-bg"
+      className="relative overflow-hidden bg-[#f6f5ef] sm-grid-bg"
     >
       {/* Floating sport-business words reacting to cursor */}
       {floatingWords.map((w) => (
@@ -145,15 +145,6 @@ export function Hero() {
         </div>
       </motion.div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 1.8, repeat: Infinity }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[#003a89] text-xs uppercase tracking-widest font-bold flex flex-col items-center gap-2"
-      >
-        Scroll
-        <div className="w-px h-12 bg-gradient-to-b from-[#003a89] to-transparent" />
-      </motion.div>
     </section>
   );
 }
