@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { HeroReveal } from '../components/HeroReveal';
 import { Hero } from '../components/Hero';
 import { ImageBanner } from '../components/ImageBanner';
 import { SectionPreviews } from '../components/SectionPreviews';
@@ -23,6 +24,7 @@ export function Home() {
 
   return (
     <>
+      <HeroReveal />
       <Hero />
       <ImageBanner />
       <SectionPreviews />
