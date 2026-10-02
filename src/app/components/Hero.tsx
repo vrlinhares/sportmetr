@@ -3,27 +3,101 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring, MotionValue
 import { ArrowRight, Zap } from 'lucide-react';
 import { Link } from 'react-router';
 
-const floatingWords = [
-  { text: 'analytics', color: '#ff751f', x: '8%', y: '18%', size: 'text-4xl', delay: 0, depth: 30 },
-  { text: 'strategy', color: '#c1ff72', x: '82%', y: '22%', size: 'text-3xl', delay: 0.4, depth: 40 },
-  { text: 'data', color: '#3533cd', x: '12%', y: '70%', size: 'text-5xl', delay: 0.8, depth: 50 },
-  { text: 'business', color: '#ff751f', x: '78%', y: '68%', size: 'text-3xl', delay: 1.2, depth: 35 },
-  { text: 'performance', color: '#003a89', x: '6%', y: '45%', size: 'text-2xl', delay: 1.6, depth: 25 },
-  { text: 'metrics', color: '#c1ff72', x: '85%', y: '48%', size: 'text-2xl', delay: 2.0, depth: 45 },
+type Viz = {
+  id: string;
+  type: 'scatter' | 'line' | 'bars' | 'radar' | 'network' | 'donut';
+  color: string;
+  x: string;
+  y: string;
+  w: number;
+  delay: number;
+  depth: number;
+};
+
+const vizItems: Viz[] = [
+  { id: 'scatter', type: 'scatter', color: '#ff751f', x: '7%', y: '17%', w: 150, delay: 0, depth: 30 },
+  { id: 'line', type: 'line', color: '#003a89', x: '80%', y: '20%', w: 170, delay: 0.3, depth: 40 },
+  { id: 'bars', type: 'bars', color: '#c1ff72', x: '11%', y: '66%', w: 150, delay: 0.6, depth: 50 },
+  { id: 'radar', type: 'radar', color: '#3533cd', x: '79%', y: '64%', w: 140, delay: 0.9, depth: 35 },
+  { id: 'network', type: 'network', color: '#003a89', x: '5%', y: '42%', w: 150, delay: 1.2, depth: 25 },
+  { id: 'donut', type: 'donut', color: '#ff751f', x: '86%', y: '46%', w: 120, delay: 1.5, depth: 45 },
 ];
 
-function FloatingWord({ word, mx, my }: { word: typeof floatingWords[number]; mx: MotionValue<number>; my: MotionValue<number> }) {
-  const px = useTransform(mx, [-0.5, 0.5], [-word.depth, word.depth]);
-  const py = useTransform(my, [-0.5, 0.5], [-word.depth * 0.7, word.depth * 0.7]);
+function VizShape({ type, color }: { type: Viz['type']; color: string }) {
+  const stroke = { fill: 'none', stroke: color, strokeWidth: 3, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  const svgProps = { width: '100%', style: { display: 'block' as const } };
+  switch (type) {
+    case 'line':
+      return (
+        <svg viewBox="0 0 120 80" {...svgProps}>
+          <line x1="8" y1="70" x2="114" y2="70" stroke={color} strokeWidth="1.5" opacity="0.5" />
+          <line x1="8" y1="70" x2="8" y2="8" stroke={color} strokeWidth="1.5" opacity="0.5" />
+          <polyline points="8,60 32,46 56,52 80,28 104,34 114,14" {...stroke} />
+        </svg>
+      );
+    case 'bars':
+      return (
+        <svg viewBox="0 0 120 80" {...svgProps}>
+          <line x1="6" y1="72" x2="116" y2="72" stroke={color} strokeWidth="1.5" opacity="0.5" />
+          {[[14, 34], [40, 52], [66, 24], [92, 44]].map(([x, h], i) => (
+            <rect key={i} x={x} y={70 - h} width="16" height={h} rx="2" fill={color} />
+          ))}
+        </svg>
+      );
+    case 'scatter':
+      return (
+        <svg viewBox="0 0 120 90" {...svgProps}>
+          <rect x="4" y="4" width="112" height="82" rx="5" fill="none" stroke={color} strokeWidth="1.5" opacity="0.5" />
+          {[[30, 30], [54, 20], [70, 46], [44, 58], [86, 34], [96, 64], [26, 66]].map(([cx, cy], i) => (
+            <circle key={i} cx={cx} cy={cy} r="5" fill={color} />
+          ))}
+        </svg>
+      );
+    case 'radar':
+      return (
+        <svg viewBox="0 0 100 100" {...svgProps}>
+          <polygon points="50,8 90,38 74,86 26,86 10,38" fill="none" stroke={color} strokeWidth="1.5" opacity="0.5" />
+          <polygon points="50,24 74,42 64,72 34,66 26,44" fill={color} fillOpacity="0.25" stroke={color} strokeWidth="2.5" />
+        </svg>
+      );
+    case 'network':
+      return (
+        <svg viewBox="0 0 120 100" {...svgProps}>
+          <g stroke={color} strokeWidth="2" opacity="0.55">
+            <line x1="18" y1="78" x2="46" y2="40" />
+            <line x1="46" y1="40" x2="78" y2="60" />
+            <line x1="46" y1="40" x2="86" y2="20" />
+            <line x1="78" y1="60" x2="104" y2="80" />
+            <line x1="18" y1="78" x2="78" y2="60" />
+          </g>
+          {[[18, 78], [46, 40], [78, 60], [86, 20], [104, 80]].map(([cx, cy], i) => (
+            <circle key={i} cx={cx} cy={cy} r="6" fill={color} />
+          ))}
+        </svg>
+      );
+    case 'donut':
+      return (
+        <svg viewBox="0 0 100 100" {...svgProps}>
+          <circle cx="50" cy="50" r="34" fill="none" stroke={color} strokeWidth="10" opacity="0.25" />
+          <circle cx="50" cy="50" r="34" fill="none" stroke={color} strokeWidth="10" strokeLinecap="round" strokeDasharray="150 64" transform="rotate(-90 50 50)" />
+        </svg>
+      );
+  }
+}
+
+function FloatingViz({ viz, mx, my }: { viz: Viz; mx: MotionValue<number>; my: MotionValue<number> }) {
+  const px = useTransform(mx, [-0.5, 0.5], [-viz.depth, viz.depth]);
+  const py = useTransform(my, [-0.5, 0.5], [-viz.depth * 0.7, viz.depth * 0.7]);
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 0.32, scale: 1 }}
-      transition={{ delay: word.delay, duration: 1.2, ease: 'easeOut' }}
-      style={{ left: word.x, top: word.y, x: px, y: py, color: word.color }}
-      className={`hidden lg:block absolute font-extrabold tracking-tight ${word.size} pointer-events-none select-none uppercase`}
+      initial={{ opacity: 0, scale: 0.6 }}
+      animate={{ opacity: 0.16, scale: 1 }}
+      transition={{ delay: viz.delay, duration: 1.2, ease: 'easeOut' }}
+      style={{ left: viz.x, top: viz.y, x: px, y: py, width: viz.w }}
+      className="hidden lg:block absolute pointer-events-none select-none"
+      aria-hidden
     >
-      {word.text}
+      <VizShape type={viz.type} color={viz.color} />
     </motion.div>
   );
 }
@@ -70,9 +144,9 @@ export function Hero() {
       id="home"
       className="relative min-h-screen flex items-center overflow-hidden bg-[#f6f5ef] sm-grid-bg"
     >
-      {/* Floating sport-business words reacting to cursor */}
-      {floatingWords.map((w) => (
-        <FloatingWord key={w.text} word={w} mx={smoothX} my={smoothY} />
+      {/* Floating data illustrations reacting to cursor */}
+      {vizItems.map((v) => (
+        <FloatingViz key={v.id} viz={v} mx={smoothX} my={smoothY} />
       ))}
 
       {/* Animated geometric orbs */}
